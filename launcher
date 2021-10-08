@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+avalible_games=( $(ls games) )
+
+echo "Games:"
+for((i=0;i<${#avalible_games[@]};i++)); do
+    echo "${avalible_games[i]}"
+done
+
