@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+declare -a player1=(. . . . .)
+declare -a player2=(. . . . .)
+
+
+current_player=1
+
+
+function setScore () {
+    if [ $current_player -eq 1 ]; then
+        player1[$1]=$2
+    fi
+
+    if [ $current_player -eq 2 ]; then
+       player2[$1]=$2
+    fi
+}
+
+function printScore () {
+    if [ $current_player -eq 1 ]; then
+        echo ${player1[@]}
+    fi
+
+    if [ $current_player -eq 2 ]; then
+        echo ${player2[@]}
+    fi
+}
+
+setScore 2 X
+printScore
+
+current_player=2
+
+setScore 3 O
+printScore
