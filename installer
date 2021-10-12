@@ -16,7 +16,7 @@ else
     path_edit=${path::-1}:/bin/koopit\"
     echo "$path_edit" > /etc/environment
 fi
-PATH=$PATH:/bin/koopit
+export PATH=$PATH:/bin/koopit
 
 chmod a+x /bin/koopit/it10games
 chmod a+x /bin/koopit/games/*
