@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-#!/usr/bin/env bash
 #Check if user root
 if [ "$EUID" -ne 0 ]
   then echo "Please run as root"
@@ -8,6 +7,17 @@ fi
 
 apt install git -y
 clear
-git clone https://github.com/LegendRed01/Bash_Scripting.git /bin 
-clear
+git clone https://github.com/LegendRed01/Bash_Scripting.git /bin/koopit
+path=$(cat /etc/environment)
+if [[ $path =~ "koopit" ]]; then
+    echo "Added"
+else
+    path=$(cat /etc/environment)
+    path_edit=${path::-1}:/bin/koopit\"
+    echo "$path_edit" > /etc/environment
+fi
+
+chmod a+x /bin/koopit/it10games
+chmod a+x /bin/koopit/games/*
+#clear
 echo Koop IT 10 Games Launcher installiert
