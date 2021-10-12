@@ -1,0 +1,490 @@
+#! /bin/bash
+
+# Variablen
+declare -A spieler
+declare -a versuch1
+declare -a versuch2
+declare -A versuch
+declare -i maximale_versuche
+declare -i amzug=1
+declare -i Spieleranzahl=1
+declare -i ToreSpieler1=0
+declare -i ToreSpieler2=0
+
+trap "askReset" INT
+#Animation
+
+#- - - - - Startposition - - - - - #Start
+function Start() {
+    echo "           ________________________               "
+    echo "           |                      |               "
+    echo "           |          O           |               "
+    echo "           |        --x--         |               "
+    echo "           |         / \          |               "
+    echo "  _________|________/___\_________|_________      "
+    echo "  |                                        |      "
+    echo "  |________________________________________|      "
+    echo "                                                  "
+    echo "                                                  "
+    echo "                      O                           "
+}
+
+function StartMitte() {
+    echo "           ________________________               "
+    echo "           |                      |               "
+    echo "           |          O           |               "
+    echo "           |        --x--         |               "
+    echo "           |         / \          |               "
+    echo "  _________|________/___\_________|_________      "
+    echo "  |                   |                    |      "
+    echo "  |________________________________________|      "
+    echo "                      |                           "
+    echo "                                                  "
+    echo "                      O                           "
+}
+
+function StartLinks() {
+    echo "           ________________________               "
+    echo "           |                      |               "
+    echo "           |          O           |               "
+    echo "           |        --x--         |               "
+    echo "           |         / \          |               "
+    echo "  _________|________/___\_________|_________      "
+    echo "  |             \                          |      "
+    echo "  |________________________________________|      "
+    echo "                   \                              "
+    echo "                                                  "
+    echo "                      O                           "
+}
+
+function StartRechts() {
+    echo "           ________________________               "
+    echo "           |                      |               "
+    echo "           |          O           |               "
+    echo "           |        --x--         |               "
+    echo "           |         / \          |               "
+    echo "  _________|________/___\_________|_________      "
+    echo "  |                         /              |      "
+    echo "  |________________________________________|      "
+    echo "                         /                        "
+    echo "                                                  "
+    echo "                      O                           "
+}
+#- - - - - Schuss Mitte Torwart Mitte - - - - - #Szenario1
+
+function MitteMitte() {
+    echo ""
+    echo "           ________________________               "
+    echo "           |       GEHALTEN!      |               "
+    echo "           |          O           |               "
+    echo "           |         -O-          |               "
+    echo "           |         / \          |               "
+    echo "  _________|________/___\_________|_________      "
+    echo "  |                   |                    |      "
+    echo "  |________________________________________|      "
+    echo "                      |                           "
+    echo "                                                  "
+    echo "                      |                           "
+}
+
+#- - - - - Schuss links Torwart Mitte - - - - - #Szenario2
+
+function LinksMitte() {
+    echo ""
+    echo "           ________________________               "
+    echo "           |    GOOOOOOALLL!!!    |               "
+    echo "           |          O           |               "
+    echo "           |        --x--         |               "
+    echo "           |         / \          |               "
+    echo "  _________|___O____/___\_________|_________      "
+    echo "  |             \                          |      "
+    echo "  |________________________________________|      "
+    echo "                   \                              "
+    echo "                                                  "
+    echo "                      \                           "
+}
+
+#- - - - - Schuss rechts Torwart Mitte - - - - - #Szenario3
+
+function RechtsMitte() {
+    echo ""
+    echo "           ________________________               "
+    echo "           |    GOOOOOOALLL!!!    |               "
+    echo "           |          O           |               "
+    echo "           |        --x--         |               "
+    echo "           |         / \          |               "
+    echo "  _________|________/___\____O____|_________      "
+    echo "  |                         /              |      "
+    echo "  |________________________________________|      "
+    echo "                         /                        "
+    echo "                                                  "
+    echo "                      /                           "
+}
+
+#- - - - - Schuss links Torwart links - - - - - #Szenario4
+
+function LinksLinks() {
+    echo ""
+    echo "           ________________________               "
+    echo "           |      GEHALTEN!       |               "
+    echo "           |                      |               "
+    echo "           |    \                 |               "
+    echo "           |    Oxx\__            |               "
+    echo "  _________|___O/__\______________|_________      "
+    echo "  |              \                         |      "
+    echo "  |________________________________________|      "
+    echo "                    \                             "
+    echo "                                                  "
+    echo "                       \                          "
+}
+
+#- - - - - Schuss rechts Torwart links - - - - - #Szenario5
+
+function RechtsLinks() {
+    echo ""
+    echo "           ________________________               "
+    echo "           |    GOOOOOOALLL!!!    |               "
+    echo "           |                      |               "
+    echo "           |    \                 |               "
+    echo "           |    Oxx\__            |               "
+    echo "  _________|____/__\_________O____|_________      "
+    echo "  |                         /              |      "
+    echo "  |________________________________________|      "
+    echo "                         /                        "
+    echo "                                                  "
+    echo "                      /                           "
+}
+
+#- - - - - Schuss mitte Torwart links - - - - - #Szenario6
+
+function MitteLinks() {
+    echo ""
+    echo "           ________________________               "
+    echo "           |    GOOOOOOALLL!!!    |               "
+    echo "           |                      |               "
+    echo "           |    \                 |               "
+    echo "           |    Oxx\__            |               "
+    echo "  _________|____/__\__O___________|_________      "
+    echo "  |                   |                    |      "
+    echo "  |________________________________________|      "
+    echo "                      |                           "
+    echo "                                                  "
+    echo "                      |                           "
+}
+
+#- - - - - Schuss links Torwart rechts - - - - - #Szenario7
+
+function LinksRechts() {
+    echo ""
+    echo "           ________________________               "
+    echo "           |    GOOOOOOALLL!!!    |               "
+    echo "           |                      |               "
+    echo "           |                  /   |               "
+    echo "           |             __/xxO   |               "
+    echo "  _________|___O___________/__\___|_________      "
+    echo "  |              \                         |      "
+    echo "  |________________________________________|      "
+    echo "                    \                             "
+    echo "                                                  "
+    echo "                       \                          "
+}
+
+#- - - - - Schuss mitte Torwart rechts - - - - - #Szenario8
+
+function MitteRechts() {
+    echo ""
+    echo "           ________________________               "
+    echo "           |    GOOOOOOALLL!!!    |               "
+    echo "           |                      |               "
+    echo "           |                  /   |               "
+    echo "           |             __/xxO   |               "
+    echo "  _________|__________O____/__\___|_________      "
+    echo "  |                   |                    |      "
+    echo "  |________________________________________|      "
+    echo "                      |                           "
+    echo "                                                  "
+    echo "                      |                           "
+}
+
+#- - - - - Schuss rechts Torwart rechts - - - - - #Szenario9
+
+function RechtsRechts() {
+    echo ""
+    echo "           ________________________               "
+    echo "           |       GEHALTEN!      |               "
+    echo "           |                      |               "
+    echo "           |                  /   |               "
+    echo "           |             __/xxO   |               "
+    echo "  _________|_______________/__\O__|_________      "
+    echo "  |                          /             |      "
+    echo "  |________________________________________|      "
+    echo "                          /                       "
+    echo "                                                  "
+    echo "                       /                          "
+}
+
+#- - - - - Wechsel zwischen den Spieler beim Schuss ↓
+
+Spielerwechsel() {
+    if [[ Spieleranzahl -eq 1 ]]; then
+        return
+    fi
+    if [[ amzug -eq 1 ]]; then
+        amzug=2
+    else
+        amzug=1
+    fi
+}
+
+# Zufallsposition des Torwarts ↓
+
+TorwartPosition() {
+    zufall=$((1 + $RANDOM % 3))
+
+    case "${zufall}" in
+    1) position="Links" ;;
+    2) position="Mitte" ;;
+    3) position="Rechts" ;;
+    esac
+}
+
+#Schussposition auswaehlen ↓
+
+SpielerSchuss() {
+    tput cup 0 0
+    echo "Erklärung! o = Treffer und x = Gehalten"
+    echo ""
+    echo "${spieler[$amzug]} ist dran!         Versuche:$(AusgabeSchuss)"
+    Start
+}
+
+# - - - Spielername und Menge eingeben ↓
+
+SpielernameEingeben() {
+    tput cnorm
+    echo "($1)Spielername eingeben: "
+    read spieler[$1]
+}
+
+Spielermenge() {
+    for ((i = 1; i < $(($1 + 1)); i++)); do
+        SpielernameEingeben $i
+    done
+    clear
+}
+
+# - - - - - Speichern und Anzeige von vorherigen versuchen/schüssen
+
+SpeicherSchuss() {
+    if [ $amzug -eq 1 ]; then
+        versuch1[$1]=$2
+    fi
+
+    if [ $amzug -eq 2 ]; then
+        versuch2[$1]=$2
+    fi
+}
+
+AusgabeSchuss() {
+    if [ $amzug -eq 1 ]; then
+        echo " ${versuch1[@]}      "
+    fi
+
+    if [ $amzug -eq 2 ]; then
+        echo " ${versuch2[@]}      "
+    fi
+}
+
+launcherUp() {
+    if [ $Spieleranzahl -gt 1 ]; then
+        Spieleranzahl=$(($Spieleranzahl - 1))
+    fi
+}
+
+launcherDown() {
+    if [ $Spieleranzahl -lt 2 ]; then
+        Spieleranzahl=$(($Spieleranzahl + 1))
+    fi
+}
+
+GameModeKey() {
+    tput civis
+    local color=$(tput setaf 103)
+    local default=$(tput sgr0)
+    while true; do
+        read -r -sn1 t
+        case $t in
+        q) exit 1 ;;
+        '') break ;;
+        $'\033')
+            read -t.001 -n2 r
+            case "$r" in
+            '[A') launcherUp ;;
+            '[B') launcherDown ;;
+            esac
+            ;;
+        esac
+        clear
+        echo "Wähle einen Spielmodus"
+        if [ $Spieleranzahl -eq 1 ]; then
+            printf "${color}[Singleplayer]${default}\n ${default}Multiplayer${default}\n"
+        else
+            printf "${default} Singleplayer ${default}\n${color}[Multiplayer]${default}\n"
+        fi
+    done
+}
+
+GameMode() {
+    clear
+    local color=$(tput setaf 103)
+    local default=$(tput sgr0)
+    echo "Wähle einen Spielmodus"
+    printf "${color}[Singleplayer]${default}\n ${default}Multiplayer${default}\n"
+    GameModeKey
+}
+
+leftKey() {
+    case $schuss in
+    Links) schuss="Links" ;;
+    Mitte) schuss="Links" ;;
+    Rechts) schuss="Mitte" ;;
+    esac
+    SpielerSchuss
+    tput cup 3 0
+    Start$schuss
+}
+
+rightKey() {
+    case $schuss in
+    Links) schuss="Mitte" ;;
+    Mitte) schuss="Rechts" ;;
+    Rechts) schuss="Rechts" ;;
+    esac
+    SpielerSchuss
+    tput cup 3 0
+    Start$schuss
+}
+
+PosSelect() {
+    #tput civis
+    while true; do
+        read -r -sn1 t
+        case $t in
+        q) exit 1 ;;
+        '') break ;;
+        $'\033')
+            read -t.001 -n2 r
+            case "$r" in
+            '[C') rightKey ;;
+            '[D') leftKey ;;
+            esac
+            ;;
+        esac
+    done
+}
+#- - - - -
+#- - Schuss + Torwartaktion ↓
+
+Elfmeterablauf() {
+    schuss="Mitte"
+    tput civis
+    PosSelect
+    TorwartPosition
+    if [ $position = $schuss ]; then
+        tput cup 2 0
+        $schuss$position
+        SpeicherSchuss $(($maximale_versuche - $1)) x
+    else
+        tput cup 2 0
+        $schuss$position
+        SpeicherSchuss $(($maximale_versuche - $1)) o
+    fi
+    Spielerwechsel
+    tput cup 3 0
+    sleep 1
+    StartMitte
+    tput cnorm
+}
+
+main() {
+    GameMode
+    Spielermenge $Spieleranzahl
+    maximale_versuche=$(($Spieleranzahl * 5))
+
+    tput cup 0 0
+    SpielerSchuss
+
+    for ((i = 0; i < maximale_versuche; i++)); do
+        Elfmeterablauf $i
+        SpielerSchuss
+    done
+
+    for Treffer in "${versuch1[@]}"; do
+        if [ $Treffer = o ]; then
+            ToreSpieler1+=1
+        fi
+    done
+
+    for Treffer in "${versuch2[@]}"; do
+        if [ $Treffer = o ]; then
+            ToreSpieler2+=1
+        fi
+    done
+    if [ $ToreSpieler1 -gt $ToreSpieler2 ]; then
+        echo "${spieler[1]} hat gewonnen"
+    elif [ $ToreSpieler2 -gt $ToreSpieler1 ]; then
+        echo "${spieler[2]} hat gewonnen"
+    elif [ $ToreSpieler2 -eq $ToreSpieler1 ]; then
+        echo "Unenschieden"
+    fi
+}
+
+PosSelect() {
+    #tput civis
+    while true; do
+        read -r -sn1 t
+        case $t in
+        q) exit 1 ;;
+        '') break ;;
+        $'\033')
+            read -t.001 -n2 r
+            case "$r" in
+            '[C') rightKey ;;
+            '[D') leftKey ;;
+            esac
+            ;;
+        esac
+    done
+}
+askReset() {
+    green=$(tput setaf 40)
+    red=$(tput setaf 160)
+    default=$(tput sgr0)
+    clear
+    echo "Nocheinmal Spielen?"
+    local new_game=0
+    while true; do
+        tput cup 2 0
+        if [ $new_game -eq 0 ]; then
+            echo "$green[Ja]$default Nein "
+        else
+            echo " Ja $red[Nein]$default "
+        fi
+        read -r -sn1 t
+        case $t in
+        '') break ;;
+        C) new_game=1 ;;
+        D) new_game=0 ;;
+        esac
+    done
+    if [ $new_game -eq 1 ]; then
+        reset
+        exit 0
+    fi
+}
+
+while true; do
+    main
+    clear
+    askReset
+done

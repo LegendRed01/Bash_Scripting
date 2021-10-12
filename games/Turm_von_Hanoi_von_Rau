@@ -1,0 +1,652 @@
+#! /usr/bin/env bash
+
+unterziel=0
+trans=0
+merken=0
+cnt=0
+#setzen=0
+
+function gameover () {
+if [ $L1 = $Stab ] && [ $M1 = $Stab ]; 
+    then
+    #echo "---------------------------------------------------"
+    
+    echo
+    echo "     GGG   AA    MMM  EEEE  OO   V  V  EEEE  RRR "
+    echo "    G     A  A  M MM  E    O  O  V  V  E     R  R"
+    echo "    G GG  AAAA  M MM  EEE  O  O  V  V  EEE   RRR "
+    echo "    G  G  A  A  M  M  E    O  O   V V  E     R R "
+    echo "     GGG  A  A  M  M  EEEE  OO     V   EEEE  R  R" ; echo
+    echo "ANIKAI-Taste drücken Ende..."
+
+    warten
+    clear
+    exit
+fi
+}
+
+function wartev () {
+    read -s -n1
+}
+function warten () {
+    read -s -n1
+}
+function backset () {
+    #setzen=merken
+    eval ${merken}="\ \ \ \ \ \ \ \ \|\ \ \ \ \ \ \ \ "
+}
+
+
+
+function testscheibe () {
+Scheibe8
+}
+
+function Scheibe8 ( ) {
+    #echo "        X        "
+    if [ "$trans" = "$S8" ]
+    then
+    erg=ja
+    return
+    else
+    erg=nein
+    Scheibe7
+    fi    
+}
+function Scheibe7 ( ) {
+    #echo "       XXX       "
+    if [ "$trans" = "$S7" ] && [ "$unterziel" != "$S8" ]
+    then
+    erg=ja
+    return
+    else
+    erg=nein
+    Scheibe6
+    return
+    fi
+}
+function Scheibe6 ( ) {
+    #echo "      XXXXX      "
+    if [ "$trans" = "$S6" ] && [ "$unterziel" != "$S7" ] && [ "$unterziel" != "$S8" ]
+    then
+    erg=ja
+    return
+    else
+    erg=nein
+    #solange keine [Scheibe5] da ist
+    return
+    fi
+}
+
+function Scheibe5 ( ) {
+    #echo "     XXXXXXX     "
+    if [ "$trans" = "$S5" ] && [ "$unterziel" != "$S6" ] && [ "$unterziel" != "$S7" ] && [ "$unterziel" != "$S8" ]
+    then
+    erg=ja
+    return
+    else
+    erg=nein
+    #solange keine [Scheibe4] da ist
+    return
+    fi
+}
+
+#Scheibe4 ( ) {#
+#    echo "    XXXXXXXXX    "
+#}
+#Scheibe3 ( ) {#
+#    echo "   XXXXXXXXXXX   "
+#}
+#Scheibe2 ( ) {
+#    echo "  XXXXXXXXXXXXX  "
+#}
+#Scheibe1 ( ) {
+#    echo " XXXXXXXXXXXXXXX "
+#}
+Stab ( ) {
+    echo "        |        "
+}
+
+
+function testvonstab1 () {
+    #Ebene 1
+    if [ "$L1" != "$Stab" ] && [ "$L2" = "$Stab" ]
+    then
+    trans=$L1
+    #Zwischenschritt einbauen
+    merken=L1
+    #L1=$Stab
+    #wartev
+    fi
+   
+    #Ebene 2
+    if [ "$L2" != "$Stab" ] && [ "$L3" = "$Stab" ]
+    then
+    trans=$L2
+    #Zwischenschritt einbauen
+    merken=L2
+    #L2=$Stab
+    #wartev
+    fi
+    #Ebene 3
+    if [ "$L3" != "$Stab" ] && [ "$L4" = "$Stab" ]
+    then
+    trans=$L3
+    #Zwischenschritt einbauen
+    merken=L3
+    #L3=$Stab
+    #wartev
+    fi
+    #Ebene 4
+    if [ "$L4" != "$Stab" ] && [ "$L5" = "$Stab" ]
+    then
+    trans=$L4
+    #Zwischenschritt einbauen
+    merken=L4
+    #L4=$Stab
+    #wartev
+    fi
+}
+
+function testvonstab2 () {
+    #Ebene 1
+    if [ "$M1" != "$Stab" ] && [ "$M2" = "$Stab" ]
+    then
+    trans=$M1
+    #Zwischenschritt einbauen
+    merken=M1
+    #M1=$Stab
+    #wartev
+    fi
+    #Ebene 2
+    if [ "$M2" != "$Stab" ] && [ "$M3" = "$Stab" ]
+    then
+    trans=$M2
+    #Zwischenschritt einbauen
+    merken=M2
+    #M2=$Stab
+    #wartev
+    fi
+    #Ebene 3
+    if [ "$M3" != "$Stab" ] && [ "$M4" = "$Stab" ]
+    then
+    trans=$M3
+    #Zwischenschritt einbauen
+    merken=M3
+    #M3=$Stab
+    #wartev
+    fi
+    #Ebene 4
+    if [ "$M4" != "$Stab" ] && [ "$M5" = "$Stab" ]
+    then
+    trans=$M4
+    #Zwischenschritt einbauen
+    merken=M4
+    #M4=$Stab
+    #wartev
+    fi
+    
+}
+
+function testvonstab3 () {
+    #Ebene 1
+    if [ "$R1" != "$Stab" ] && [ "$R2" = "$Stab" ]
+    then
+    trans=$R1
+    #Zwischenschritt einbauen
+    merken=R1
+    #R1=$Stab
+    #wartev
+    fi
+    #Ebene 2
+    if [ "$R2" != "$Stab" ] && [ "$R3" = "$Stab" ]
+    then
+    trans=$R2
+    #Zwischenschritt einbauen
+    merken=R2
+    #R2=$Stab
+    #wartev
+    fi
+    #Ebene 3
+    if [ "$R3" != "$Stab" ] && [ "$R4" = "$Stab" ]
+    then
+    trans=$R3
+    #Zwischenschritt einbauen
+    merken=R3
+    #wartev
+    fi
+    #Ebene 4
+    if [ "$R4" != "$Stab" ] && [ "$R5" = "$Stab" ]
+    then
+    trans=$R4
+    #Zwischenschritt einbauen
+    merken=R4
+    #wartev
+    fi
+}
+
+function testnachstab1 () {
+    #Ebene 1
+    if [ $L1 = $Stab ]
+        then
+        L1=$trans
+        backset
+        let cnt+=1
+        #gameover
+        
+
+        #warten
+        return
+        
+    fi
+   
+    #Ebene 2
+    if [ $L2 = $Stab ] && [ $L1 != $Stab ]
+    then
+    unterziel=$L1
+    #warten
+    testscheibe
+    if [ $erg = ja ]
+    then
+    L2=$trans
+    backset
+    let cnt+=1
+    #gameover
+    
+    #warten
+    return
+    fi
+    if [ $erg = nein ]
+    then
+    echo "ungültiger Zug..."
+    echo "ANIKAI-Taste drücken"
+    warten
+    #vonsicherung=$trans
+    #eingabe
+    return
+    fi
+    
+    fi
+    #Ebene 3
+    if [ $L3 = $Stab ] && [ $L2 != $Stab ]
+    then
+    unterziel=$L2
+    #warten
+    testscheibe
+    if [ $erg = ja ]
+    then
+    L3=$trans
+    backset
+    let cnt+=1
+    #gameover
+    
+    #warten
+    return
+    fi
+    if [ $erg = nein ]
+    then
+    echo "ungültiger Zug..."
+    echo "ANIKAI-Taste drücken"
+    warten
+    #vonsicherung=$trans
+    #eingabe
+    return
+    fi
+    
+    fi
+
+    #Ebene 4
+    if [ $L4 = $Stab ] && [ $L3 != $Stab ]
+    then
+    unterziel=$L3
+    #warten
+    testscheibe
+    if [ $erg = ja ]
+    then
+    L4=$trans
+    backset
+    let cnt+=1
+    #gameover
+    
+    #warten
+    return
+    fi
+    if [ $erg = nein ]
+    then
+    echo "ungültiger Zug..."
+    echo "ANIKAI-Taste drücken"
+    warten
+    #vonsicherung=$trans
+    #eingabe
+    return
+    fi
+    
+    fi
+}
+
+function testnachstab2 () {
+    #Ebene 1
+    if [ $M1 = $Stab ]
+        then
+        M1=$trans
+        backset
+        let cnt+=1
+        #gameover
+        
+        #warten
+        return
+        
+    fi
+    
+    #Ebene 2
+    if [ $M2 = $Stab ] && [ $M1 != $Stab ]
+    then
+    unterziel=$M1
+    #warten
+    testscheibe
+    if [ $erg = ja ]
+    then
+    M2=$trans
+    backset
+    let cnt+=1
+    #gameover
+    
+    #warten
+    return
+    fi
+    if [ $erg = nein ]
+    then
+    echo "ungültiger Zug..."
+    echo "ANIKAI-Taste drücken"
+    warten
+    #vonsicherung=$trans
+    #eingabe
+    return
+    fi
+    
+    fi
+    #Ebene 3
+    if [ $M3 = $Stab ] && [ $M2 != $Stab ]
+    then
+    unterziel=$M2
+    #warten
+    testscheibe
+    if [ $erg = ja ]
+    then
+    M3=$trans
+    backset
+    let cnt+=1
+    #gameover
+    
+    #warten
+    return
+    fi
+    if [ $erg = nein ]
+    then
+    echo "ungültiger Zug..."
+    echo "ANIKAI-Taste drücken"
+    warten
+    #vonsicherung=$trans
+    #eingabe
+    return
+    fi
+    
+    fi
+
+    #Ebene 4
+    if [ $M4 = $Stab ] && [ $M3 != $Stab ]
+    then
+    unterziel=$M3
+    #warten
+    testscheibe
+    if [ $erg = ja ]
+    then
+    M4=$trans
+    backset
+    let cnt+=1
+    #gameover
+    
+    #warten
+    return
+    fi
+    if [ $erg = nein ]
+    then
+    echo "ungültiger Zug..."
+    echo "ANIKAI-Taste drücken"
+    warten
+    #vonsicherung=$trans
+    #eingabe
+    return
+    fi
+    
+    fi
+}
+
+function testnachstab3 () {
+    #Ebene 1
+       if [ $R1 = $Stab ]
+        then
+        R1=$trans
+        backset
+        let cnt+=1
+        #gameover
+        
+        #warten
+        return
+        
+    fi
+    #eingabe
+    #Ebene 2
+    if [ $R2 = $Stab ] && [ $R1 != $Stab ]
+    then
+    unterziel=$R1
+    #warten
+    testscheibe
+    if [ $erg = ja ]
+    then
+    R2=$trans
+    backset
+    let cnt+=1
+    #gameover
+    
+    #warten
+    return
+    fi
+    if [ $erg = nein ]
+    then
+    echo "ungültiger Zug..."
+    echo "ANIKAI-Taste drücken"
+    warten
+    #vonsicherung=$trans
+    #eingabe
+    return
+    fi
+    
+    fi
+    #Ebene 3
+    if [ $R3 = $Stab ] && [ $R2 != $Stab ]
+    then
+    unterziel=$R2
+    #warten
+    testscheibe
+    if [ $erg = ja ]
+    then
+    R3=$trans
+    backset
+    let cnt+=1
+    #gameover
+    
+    #warten
+    return
+    fi
+    if [ $erg = nein ]
+    then
+    echo "ungültiger Zug..."
+    echo "ANIKAI-Taste drücken"
+    warten
+    #vonsicherung=$trans
+    #eingabe
+    return
+    fi
+    
+    fi
+
+    #Ebene 4
+    if [ $R4 = $Stab ] && [ $R3 != $Stab ]
+    then
+    unterziel=$R3
+    #warten
+    testscheibe
+    if [ $erg = ja ]
+    then
+    R4=$trans
+    backset
+    let cnt+=1
+    #gameover
+    
+    #warten
+    return
+    fi
+    if [ $erg = nein ]
+    then
+    echo "ungültiger Zug..."
+    echo "ANIKAI-Taste drücken"
+    warten
+    #vonsicherung=$trans
+    #eingabe
+    return
+    fi
+    
+    fi
+}
+
+function eingabe () {
+   
+   
+   echo "Exit = x"
+read -n1 -p "von : " von; if [ $von = x ]
+    then
+    clear
+    exit
+fi
+echo
+read -n1 -p "nach: " nach; if [ $nach = x ]
+    then
+    clear
+    exit
+fi 
+echo
+}
+
+
+
+
+
+
+#  "        |        "
+#  "        X        "
+#  "       XXX       "
+#  "      XXXXX      "
+#  "     XXXXXXX     "
+#  "    XXXXXXXXX    "
+#  "   XXXXXXXXXXX   "
+#  "  XXXXXXXXXXXXX  "
+#  " XXXXXXXXXXXXXXX "
+
+
+
+
+clear
+echo "Turm von Hanoi"; echo
+
+#L8="        X        "
+#L7="       XXX       "
+#L6="      XXXXX      "
+#L5="     \033[1m\033[34mXXXXXXX\033[0m     "
+#L4="    XXXXXXXXX    "
+#L3="   XXXXXXXXXXX   "
+#L2="  XXXXXXXXXXXXX  "
+#L1=" XXXXXXXXXXXXXXX "
+L4="        \033[1m\033[33mX\033[0m        "
+L3="       \033[1m\033[31mXXX\033[0m       "
+L2="      \033[1m\033[32mXXXXX\033[0m      "
+L1="     \033[1m\033[34mXXXXXXX\033[0m     "
+
+S8="        \033[1m\033[33mX\033[0m        "
+S7="       \033[1m\033[31mXXX\033[0m       "
+S6="      \033[1m\033[32mXXXXX\033[0m      "
+S5="     \033[1m\033[34mXXXXXXX\033[0m     "
+S4="    XXXXXXXXX    "
+S3="   XXXXXXXXXXX   "
+S2="  XXXXXXXXXXXXX  "
+S1=" XXXXXXXXXXXXXXX "
+
+B0="-----------------"
+Stab="        |        "
+declare L{5..5}="        |        "
+declare M{1..5}="        |        "
+declare R{1..5}="        |        "
+
+while true ; do
+
+
+clear
+echo "Turm von Hanoi"; echo
+echo "        1        ""        2        ""        3        "; echo
+#echo -e "$L8""$M8""$R8"
+#echo -e "$L7""$M7""$R7"
+#echo -e "$L6""$M6""$R6"
+echo -e "$L5""$M5""$R5"
+echo -e "$L4""$M4""$R4"
+echo -e "$L3""$M3""$R3"
+echo -e "$L2""$M2""$R2"
+echo -e "$L1""$M1""$R1"
+echo "$B0""$B0""$B0"
+echo; echo "VERSUCHE: $cnt"; echo
+
+gameover
+eingabe
+
+
+
+#Abfrage von 1
+if [ $von = 1 ]
+then
+testvonstab1
+fi
+
+#Abfrage von 2
+if [ $von = 2 ]
+then
+testvonstab2
+fi
+
+#Abfrage von 3
+if [ $von = 3 ]
+then
+testvonstab3
+fi
+
+#Abfrage nach 1
+
+if [ $nach = 1 ]; then
+  testnachstab1
+fi
+
+
+
+#Abfrage nach 2
+
+if [ $nach = 2 ]; then
+  testnachstab2
+fi
+
+#Abfrage nach 3
+
+
+if [ $nach = 3 ]; then
+   testnachstab3
+fi
+
+x
+done

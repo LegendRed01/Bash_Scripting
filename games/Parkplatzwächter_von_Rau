@@ -1,0 +1,163 @@
+#! /bin/bash
+L1=O
+L2=.
+L3=.
+L4=.
+L5=.
+L6=.
+L7=.
+L8=.
+L9=.
+cnt=-1
+while :; do
+    clear
+    echo "Der Parkplatzwächter"
+    echo
+    echo "Beschreibung:"
+    echo
+    echo "Die Neun Lampen des Parkplatzes sind leider Falsch verkabelt worden."
+    echo "Aufgabe des Parkplatzwächters ist es, alle Lampen einzuschalten."
+    echo "Eine Lampe lässt sich nur einschalten, wenn die Lampe links davon eingeschalten ist,"
+    echo "aber alle Lampen noch weiter links AUSGESCHALTEN sind!"
+    echo
+    echo "Taste [0]-->Exit"
+    echo
+    echo "($L1)  ($L2)  ($L3)  ($L4)  ($L5)  ($L6)  ($L7)  ($L8)  ($L9)"
+    echo " |    |    |    |    |    |    |    |    |"
+    echo " |    |    |    |    |    |    |    |    |"
+    echo "-------------------------------------------"
+    echo " 1    2    3    4    5    6    7    8    9"
+    echo
+    echo
+    let cnt+=1
+    echo "VERSUCHE: $cnt"
+    read -n1 -p "Lampennummer: " Lnr
+
+    #Abfrage EXIT
+    if [ $Lnr = 0 ]; then
+        clear
+        exit
+    fi
+
+    #Abfrage L1
+    if [ $Lnr = 1 ]; then
+        if [ $L1 = "O" ]; then
+            L1="."
+        else
+            if [ $L1 = "." ]; then
+                L1="O"
+            fi
+        fi
+    fi
+    #Abfrage L2
+    if [ $Lnr = 2 ]; then
+        if [ $L1 = "O" ] && [ $L2 = "O" ]; then
+            L2="."
+        else
+            if [ $L1 = "O" ] && [ $L2 = "." ]; then
+                L2="O"
+            fi
+        fi
+    fi
+    #Abfrage L3
+    if [ $Lnr = 3 ]; then
+        if [ $L1 = "." ] && [ $L2 = "O" ] && [ $L3 = "O" ]; then
+            L3="."
+        else
+            if [ $L1 = "." ] && [ $L2 = "O" ] && [ $L3 = "." ]; then
+                L3="O"
+            fi
+        fi
+    fi
+    #Abfrage L4
+    if [ $Lnr = 4 ]; then
+        if [ $L1 = "." ] && [ $L2 = "." ] && [ $L3 = "O" ] && [ $L4 = "O" ]; then
+            L4="."
+        else
+            if [ $L1 = "." ] && [ $L2 = "." ] && [ $L3 = "O" ] && [ $L4 = "." ]; then
+                L4="O"
+            fi
+        fi
+    fi
+    #Abfrage L5
+    if [ $Lnr = 5 ]; then
+        if [ $L1 = "." ] && [ $L2 = "." ] && [ $L3 = "." ] && [ $L4 = "O" ] && [ $L5 = "O" ]; then
+            L5="."
+        else
+            if [ $L1 = "." ] && [ $L2 = "." ] && [ $L3 = "." ] && [ $L4 = "O" ] && [ $L5 = "." ]; then
+                L5="O"
+            fi
+        fi
+    fi
+    #Abfrage L6
+    if [ $Lnr = 6 ]; then
+        if [ $L1 = "." ] && [ $L2 = "." ] && [ $L3 = "." ] && [ $L4 = "." ] && [ $L5 = "O" ] && [ $L6 = "O" ]; then
+            L6="."
+        else
+            if [ $L1 = "." ] && [ $L2 = "." ] && [ $L3 = "." ] && [ $L4 = "." ] && [ $L5 = "O" ] && [ $L6 = "." ]; then
+                L6="O"
+            fi
+        fi
+    fi
+    #Abfrage L7
+    if [ $Lnr = 7 ]; then
+        if [ $L1 = "." ] && [ $L2 = "." ] && [ $L3 = "." ] && [ $L4 = "." ] && [ $L5 = "." ] && [ $L6 = "O" ] && [ $L7 = "O" ]; then
+            L7="."
+        else
+            if [ $L1 = "." ] && [ $L2 = "." ] && [ $L3 = "." ] && [ $L4 = "." ] && [ $L5 = "." ] && [ $L6 = "O" ] && [ $L7 = "." ]; then
+                L7="O"
+            fi
+        fi
+    fi
+    #Abfrage L8
+    if [ $Lnr = 8 ]; then
+        if [ $L1 = "." ] && [ $L2 = "." ] && [ $L3 = "." ] && [ $L4 = "." ] && [ $L5 = "." ] && [ $L6 = "." ] && [ $L7 = "O" ] && [ $L8 = "O" ]; then
+            L8="."
+        else
+            if [ $L1 = "." ] && [ $L2 = "." ] && [ $L3 = "." ] && [ $L4 = "." ] && [ $L5 = "." ] && [ $L6 = "." ] && [ $L7 = "O" ] && [ $L8 = "." ]; then
+                L8="O"
+            fi
+        fi
+    fi
+    #Abfrage L9
+    if [ $Lnr = 9 ]; then
+        if [ $L1 = "." ] && [ $L2 = "." ] && [ $L3 = "." ] && [ $L4 = "." ] && [ $L5 = "." ] && [ $L6 = "." ] && [ $L7 = "." ] && [ $L8 = "O" ] && [ $L9 = "O" ]; then
+            L9="."
+        else
+            if [ $L1 = "." ] && [ $L2 = "." ] && [ $L3 = "." ] && [ $L4 = "." ] && [ $L5 = "." ] && [ $L6 = "." ] && [ $L7 = "." ] && [ $L8 = "O" ] && [ $L9 = "." ]; then
+                L9="O"
+            fi
+        fi
+    fi
+    if [ $L1 = O ] &&
+        [ $L2 = O ] &&
+        [ $L3 = O ] &&
+        [ $L4 = O ] &&
+        [ $L5 = O ] &&
+        [ $L6 = O ] &&
+        [ $L7 = O ] &&
+        [ $L8 = O ] &&
+        [ $L9 = O ]; then
+        clear
+        echo "Der Parkplatzwächter"
+        echo
+        echo "Beschreibung:"
+        echo
+        echo "Die Neun Lampen des Parkplatzes sind leider Falsch verkabelt worden."
+        echo "Aufgabe des Parkplatzwächters ist es, alle Lampen einzuschalten."
+        echo "Eine Lampe lässt sich nur einschalten, wenn die Lampe links davon eingeschalten ist,"
+        echo "aber alle Lampen noch weiter links AUSGESCHALTEN sind!"
+        echo
+        echo "($L1)  ($L2)  ($L3)  ($L4)  ($L5)  ($L6)  ($L7)  ($L8)  ($L9)"
+        echo " |    |    |    |    |    |    |    |    |"
+        echo " |    |    |    |    |    |    |    |    |"
+        echo "-------------------------------------------"
+        echo " 1    2    3    4    5    6    7    8    9"
+        echo
+        echo
+        echo "VERSUCHE: $cnt"
+        echo "Fertig!!!"
+        echo
+        break
+    fi
+done

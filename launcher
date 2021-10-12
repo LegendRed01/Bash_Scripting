@@ -3,6 +3,13 @@ declare -a avalible_games=( $(ls games) )
 declare -i current_game=0
 clear
 
+QuitLauncher() {
+    tput cnorm
+    exit 0
+}
+
+trap "QuitLauncher" INT
+
 function DisplayTitle () {
     local title=$(tput setaf 105) 
     local color=$(tput setaf 127)
@@ -27,6 +34,7 @@ function SetCursor () {
 }
 
 function GameSelector () {
+    tput civis 
     local green=$(tput setaf 123) 
     local normal=$(tput sgr0)
     for((g=0;g<${#avalible_games[@]};g++)); do
@@ -59,7 +67,7 @@ function SelectorDown () {
 }
 function StartGame () {
     ./games/${avalible_games[$current_game]}
-    clear
+    reset
     PrintSelector
 }
 
