@@ -6,7 +6,7 @@ if [ "$EUID" -ne 0 ]
   exit
 fi
 
-apt install git-all -y
+apt install git -y
 clear
 git clone https://github.com/LegendRed01/Bash_Scripting.git /bin 
 clear
