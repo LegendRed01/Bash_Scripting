@@ -22,3 +22,6 @@ chmod a+x /bin/koopit/it10games
 chmod a+x /bin/koopit/games/*
 #clear
 echo Koop IT 10 Games Launcher installiert
+echo Logging Out to finalize the installation
+sleep 1
+logout
