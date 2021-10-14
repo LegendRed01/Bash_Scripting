@@ -1,0 +1,86 @@
+
+#Gerrit's erstes Spiel
+
+spieler=0
+
+ARR=(. . . . . . . . .)
+
+
+ABFRAGE() {
+  SIEG 0 1 2
+  SIEG 3 4 5
+  SIEG 6 7 8
+  SIEG 0 3 6
+  SIEG 1 4 7
+  SIEG 2 5 8
+  SIEG 0 4 8
+  SIEG 2 4 6
+}
+
+
+SIEG() {
+  if [ ${ARR[$1]} != "." ] && [ ${ARR[$1]} == ${ARR[$2]} ] && [ ${ARR[$2]} == ${ARR[$3]} ]; then
+    echo "Gewonnen"
+    exit
+  fi
+}
+
+
+
+SPIELFELD() {
+  echo "  0 1 2"
+  echo "0 ${ARR[0]} ${ARR[1]} ${ARR[2]}"
+  echo "1 ${ARR[3]} ${ARR[4]} ${ARR[5]}"
+  echo "2 ${ARR[6]} ${ARR[7]} ${ARR[8]}"
+}
+
+while [ 1 == 1 ]; do
+  if test $spieler -eq 0; then
+    SYMBOL=X
+      clear
+      echo "Spieler 1 (X) ist am Zug"
+       while [ $spieler == 0 ]; do
+      SPIELFELD
+      ABFRAGE
+      read x
+      read y
+      FELD=$(($y * 3 + $x))
+    
+     if [ ${ARR[$FELD]} == "." ]; then
+     ((spieler++))
+      sleep 1
+      ARR[$FELD]=$SYMBOL
+    else
+      echo "Das Feld ist belegt"
+      echo "Versuche es nochmal"
+      sleep 2
+      break
+    fi
+ 
+    done
+  else
+    SYMBOL1=O
+    clear
+    echo "Spieler 2 (O) ist am Zug"
+    while [ $spieler == 1 ]; do
+    SPIELFELD
+    ABFRAGE
+    read x
+    read y
+    FELD=$(($y * 3 + $x))
+    if [ ${ARR[$FELD]} == "." ]; then
+     ((spieler--))
+     ARR[$FELD]=$SYMBOL1
+    else
+      echo "Das Feld ist belegt"
+      echo "Versuche es nochmal"
+      sleep 2
+      break
+    fi
+  
+    done
+  fi
+ 
+done
+
+
