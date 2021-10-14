@@ -1,5 +1,5 @@
-
-
+#! /bin/bash
+clear
 getopts "d:" message_delay
 
 message_delay=${OPTARG:-"1"} #Zeitverzögerung im Spiel

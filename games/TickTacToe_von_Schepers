@@ -2,10 +2,16 @@
 #Gerrit's erstes Spiel
 
 spieler=0
+counter=0
 
 ARR=(. . . . . . . . .)
 
-
+COUNTER(){
+  if [ $counter == 9 ]
+  then
+  echo "unentschieden"
+  fi
+}
 ABFRAGE() {
   SIEG 0 1 2
   SIEG 3 4 5
@@ -42,12 +48,14 @@ while [ 1 == 1 ]; do
        while [ $spieler == 0 ]; do
       SPIELFELD
       ABFRAGE
+      COUNTER
       read x
       read y
       FELD=$(($y * 3 + $x))
     
      if [ ${ARR[$FELD]} == "." ]; then
      ((spieler++))
+     ((counter++))
       sleep 1
       ARR[$FELD]=$SYMBOL
     else
@@ -65,11 +73,13 @@ while [ 1 == 1 ]; do
     while [ $spieler == 1 ]; do
     SPIELFELD
     ABFRAGE
+    COUNTER
     read x
     read y
     FELD=$(($y * 3 + $x))
     if [ ${ARR[$FELD]} == "." ]; then
      ((spieler--))
+     ((counter++))
      ARR[$FELD]=$SYMBOL1
     else
       echo "Das Feld ist belegt"
