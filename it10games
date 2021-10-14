@@ -12,7 +12,7 @@ trap "QuitLauncher" INT
 
 function DisplayTitle () {
     local title=$(tput setaf 105) 
-    local color=$(tput setaf 127)
+    local color=$(tput setaf 167)
     local normal=$(tput sgr0)
     printf "$title"
     printf "_  _ ____ ____ ___     _ ___    ____ ___  _ ____ _    ____ ____ ____ _  _ _  _ _    _  _ _  _ ____\n" 
