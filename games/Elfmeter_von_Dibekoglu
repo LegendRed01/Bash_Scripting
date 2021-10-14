@@ -256,6 +256,8 @@ SpielerSchuss() {
     echo ""
     echo "${spieler[$amzug]} ist dran!         Versuche:$(AusgabeSchuss)"
     Start
+    sleep .5
+    StartMitte
 }
 
 # - - - Spielername und Menge eingeben ↓
@@ -457,6 +459,9 @@ PosSelect() {
     done
 }
 askReset() {
+    versuch1=()
+    versuch2=()
+    versuch=()
     green=$(tput setaf 40)
     red=$(tput setaf 160)
     default=$(tput sgr0)

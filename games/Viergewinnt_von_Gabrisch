@@ -1,0 +1,201 @@
+feld=()
+pOne="$(tput setaf 160)O$(tput sgr0)"
+pTwo="$(tput setaf 40)X$(tput sgr0)"
+pCount=2
+pInput=0
+laenge=0
+wonOne="false"
+wonTwo="false"
+gameover="false"
+
+declare -a -i colIndex=()
+
+function checkhorizontal(){
+  for ((i=35;$i>=0;i-=7)); do
+    local z=$(($i + 4))
+    for ((j=$i;$j<=$z;j++)); do
+      local a=$(($j + 1))
+      local b=$(($a + 1))
+      local c=$(($b + 1))
+      if test ${feld[$j]} == $pOne && test ${feld[$a]} == $pOne && test ${feld[$b]} == $pOne && test ${feld[$c]} == $pOne; then
+        wonOne="true"
+      elif test ${feld[$j]} == $pTwo && test ${feld[$a]} == $pTwo && test ${feld[$b]} == $pTwo && test ${feld[$c]} == $pTwo; then
+        wonTwo="true"
+      fi
+    done
+  done
+}
+
+function checkvertical(){
+  for ((i=35;$i<=41;i++)); do
+    local x=$(($i - 14))
+    for ((j=$i;$j>=$x;j-=7)); do
+      local a=$(($j - 7))
+      local b=$(($a - 7))
+      local c=$(($b - 7))
+      if test ${feld[$j]} == $pOne && test ${feld[$a]} == $pOne && test ${feld[$b]} == $pOne && test ${feld[$c]} == $pOne; then
+        wonOne="true"
+      elif test ${feld[$j]} == $pTwo && test ${feld[$a]} == $pTwo && test ${feld[$b]} == $pTwo && test ${feld[$c]} == $pTwo; then
+        wonTwo="true"
+      fi
+    done
+  done
+}
+
+function checkdiagonal(){
+  for ((i=35;$i<=38;i++)); do
+    for ((j=$i;$j>=21;j-=7)); do
+      local x=$(($j - 6))
+      local y=$(($x - 6))
+      local z=$(($y - 6))
+      if test ${feld[$j]} == $pOne && test ${feld[$x]} == $pOne && test ${feld[$y]} == $pOne && test ${feld[$z]} == $pOne; then
+        wonOne="true"
+      elif test ${feld[$j]} == $pTwo && test ${feld[$x]} == $pTwo && test ${feld[$y]} == $pTwo && test ${feld[$z]} == $pTwo; then
+        wonTwo="true"
+      fi
+    done
+  done
+  for ((i=41;$i<=38;i--)); do
+    for ((j=$i;$j>=27;j-=7)); do
+      local x=$(($j - 8))
+      local y=$(($x - 8))
+      local z=$(($y - 8))
+      if test ${feld[$j]} == $pOne && test ${feld[$x]} == $pOne && test ${feld[$y]} == $pOne && test ${feld[$z]} == $pOne; then
+        wonOne="true"
+      elif test ${feld[$j]} == $pTwo && test ${feld[$x]} == $pTwo && test ${feld[$y]} == $pTwo && test ${feld[$z]} == $pTwo; then
+        wonTwo="true"
+      fi
+    done
+  done
+
+}
+
+function winner(){
+  if test $wonOne == "true"; then
+    echo "Spieler 1 hat gewonnen"
+    gameover="true"
+  elif test $wonTwo == "true"; then
+    echo "Spieler 2 hat gewonnen"
+    gameover="true"
+  elif test ${feld[0]} != "." && test ${feld[1]} != "." && test ${feld[2]} != "." && test ${feld[3]} != "." && test ${feld[4]} != "." && test ${feld[5]} != "." &&test ${feld[6]} != "."; then
+    echo "Unentschieden"
+    gameover="true"
+  fi
+}
+
+function getcolIndex(){
+  for ((i=0;$i<=35;i += 7)); do
+    if test ${feld[$i]} == "."; then
+      colIndex[0]=$i
+    fi
+  done
+  for ((i=1;$i<=36;i += 7)); do
+    if test ${feld[$i]} == "."; then
+      colIndex[1]=$i
+    fi
+  done
+  for ((i=2;$i<=37;i += 7)); do
+    if test ${feld[$i]} == "."; then
+      colIndex[2]=$i
+    fi
+  done
+  for ((i=3;$i<=38;i += 7)); do
+    if test ${feld[$i]} == "."; then
+      colIndex[3]=$i
+    fi
+  done
+  for ((i=4;$i<=39;i += 7)); do
+    if test ${feld[$i]} == "."; then
+      colIndex[4]=$i
+    fi
+  done
+  for ((i=5;$i<=40;i += 7)); do
+    if test ${feld[$i]} == "."; then
+      colIndex[5]=$i
+    fi
+  done
+  for ((i=6;$i<=41;i += 7)); do
+    if test ${feld[$i]} == "."; then
+      colIndex[6]=$i
+    fi
+  done
+}
+
+function init(){
+clear
+for ((i=0;$i<42;i++)); do
+  feld[$i]="."
+done
+laenge=${!feld[@]}
+}
+
+function draw(){
+  clear
+  local index=0
+  local outdex=7
+
+  for ((l=1;$l<=7;l++)); do
+    echo -n " "$l" "
+  done
+  echo
+  for ((j=0;$j<6;j++)); do
+    for ((k=$index;$k<$outdex;k++)); do
+      echo -n " "${feld[$k]}" "
+    done
+    echo
+
+    index=$(($index + 7))
+    outdex=$(($outdex + 7))
+  done
+}
+
+function eingabe(){
+  echo
+  unset pInput
+  pInput=0
+  if test $(($pCount % 2)) -eq 0; then
+    while :
+    do
+      read -p "Spieler 1: " EINGABE
+      if test $EINGABE -eq 1 || test $EINGABE -eq 2 || test $EINGABE -eq 3 || test $EINGABE -eq 4 || test $EINGABE -eq 5 || test $EINGABE -eq 6 || test $EINGABE -eq 7; then
+        pInput=$EINGABE
+        pCount=$(($pCount + 1))
+        break
+      else
+        continue
+      fi
+    done
+    zug $pOne
+  elif test $(($pCount % 2)) -ne 0; then
+    while :
+    do
+      read -p "Spieler 2: " EINGABE
+      if test $EINGABE -eq 1 || test $EINGABE -eq 2 || test $EINGABE -eq 3 || test $EINGABE -eq 4 || test $EINGABE -eq 5 || test $EINGABE -eq 6 || test $EINGABE -eq 7; then
+        pInput=$EINGABE
+        pCount=$(($pCount + 1))
+        break
+      else
+        continue
+      fi
+    done
+    zug $pTwo
+  fi
+}
+
+function zug(){
+  pInput=$(($pInput - 1))
+  local x=${colIndex[$pInput]}
+  feld[$x]=$1
+}
+
+init
+while test $gameover == "false"; do
+getcolIndex
+draw
+eingabe
+draw
+checkdiagonal
+checkhorizontal
+checkvertical
+winner
+done
