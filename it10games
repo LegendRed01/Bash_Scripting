@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-declare -a avalible_games=( $(ls /bin/games) )
+declare -a avalible_games=( $(ls -p /bin/games |  grep -v / ) )
 declare -i current_game=0
 clear
 

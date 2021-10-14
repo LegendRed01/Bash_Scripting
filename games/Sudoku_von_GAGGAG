@@ -39,7 +39,7 @@ fi
 
 sudoku=()	
 
-source ./sudoku_functions/generate.sh ${LEVEL}   
+source /bin/games/sudoku_functions/generate.sh ${LEVEL}   
 
 sudoku=(${sudoku_generate[*]})	 
 
@@ -152,7 +152,7 @@ do
 			fi
 			;;
 		"e")             		
-			source ./sudoku_functions/check.sh ${sudoku_buf[*]}   
+			source /bin/games/sudoku_functions/check.sh ${sudoku_buf[*]}   
 			if [[ $return_check -eq 0 ]]  
 			then
 				tput sc      
