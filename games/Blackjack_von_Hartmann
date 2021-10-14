@@ -223,8 +223,6 @@ function new_game #Neues Spiel
             echo_with_delay "\nDealer hat $(card_full_name ${dealer_hand[0]}) und $(card_full_name ${dealer_hand[1]})."
 
             echo_with_delay "\nBeide Spieler haben Blackjack. Spiel ist Unentschieden."
-        else
-            echo_with_delay "\nBlackjack!"
         fi
 
         return
