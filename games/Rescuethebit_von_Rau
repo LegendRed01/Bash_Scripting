@@ -73,7 +73,13 @@ function text2() {
 }
 
 function eingabe1() {
+    tput cup 20 0
     read -n1 -p "Gib eine Richtung vor: " rtg
+    case "${rtg}" in
+        2|4|6|8|x) continue ;;
+        *) eingabe1 ;;
+    esac
+    
 }
 
 function eingabe2() {
