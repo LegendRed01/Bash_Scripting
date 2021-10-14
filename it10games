@@ -41,9 +41,9 @@ function GameSelector () {
         game=${avalible_games[g]}
         tput cup $(( 11 + $g )) 35
         if [ $current_game -eq $g ]; then
-            echo "${green}[${game}]${normal}           "
+            echo "${green}["${game//_/ }"]${normal}           "
         else
-            echo " ${game}              "
+            echo " ${game//_/ }              "
         fi
     done   
 }
