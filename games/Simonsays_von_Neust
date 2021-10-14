@@ -1,0 +1,126 @@
+#! /bin/bash
+clear
+rot=$(tput sgr0)
+blau=$(tput sgr0)
+gruen=$(tput sgr0)
+gelb=$(tput sgr0)
+weiss=$(tput sgr0)
+
+declare -a loesung
+declare -a antwort
+declare -i punkte=0
+declare -i level=1
+
+Spielfeld () {
+ clear
+ echo "SIMON SAYS"
+ echo "Punktzahl: ${punkte}"
+ echo "Level: ${level}"
+ #echo "Debugmodus v"
+ #echo "Antwort: ${antwort[@]}"
+ #echo "Lösung: ${loesung[@]}"
+ echo
+ printf "  ${rot}██${weiss}\n"
+ printf "${gruen}██${weiss}  ${gelb}██${weiss}\n"
+ printf "  ${blau}██${weiss}\n"
+}
+
+rotesfeld() {
+ rot=$(tput setaf 1)
+ Spielfeld
+ sleep .5
+ rot=$(tput sgr0)
+ Spielfeld
+ sleep .5
+}
+
+gruenesfeld() {
+ gruen=$(tput setaf 2)
+ Spielfeld
+ sleep .5
+ gruen=$(tput sgr0)
+ Spielfeld
+ sleep .5
+}
+
+gelbesfeld() {
+ gelb=$(tput setaf 3)
+ Spielfeld
+ sleep .5
+ gelb=$(tput sgr0)
+ Spielfeld
+ sleep .5
+}
+
+blauesfeld() {
+ 
+ blau=$(tput setaf 4)
+ Spielfeld
+ sleep .5
+ blau=$(tput sgr0)
+ Spielfeld
+ sleep .5
+}
+
+farbarray=(rotesfeld gruenesfeld gelbesfeld blauesfeld)
+
+farbgenerator () {
+ rng=$(($RANDOM % 4))
+ ${farbarray[rng]}
+}
+
+eingabetasten () {
+ read -r -sn1 t
+ case $t in
+        q) exit 1 ;;
+        ($'\033')
+        read -t.001 -n2 r 
+        case "$r" in
+            ('[A')
+                rotesfeld
+                antwort+=(1)
+                ;;
+            ('[B')
+                blauesfeld
+                antwort+=(4)
+                ;;
+            ('[C')
+                gelbesfeld
+                antwort+=(3)
+                ;;
+            ('[D')
+                gruenesfeld
+                antwort+=(2)
+                ;;
+        esac
+ esac
+}
+
+gameover () {
+    echo "Game Over"
+    exit 1
+}
+
+while true; do
+    
+    loesung=()
+    antwort=()
+    for((i=0;i<$(($level+ 3));i++)); do
+        farbgenerator
+        loesung+=("$((${rng} + 1))")
+    done
+    Spielfeld
+    for((i=0;i<$(($level+ 3));i++)); do
+        eingabetasten
+        if [ "${loesung[i]}" -eq "${antwort[i]}" ]; then
+            punkte+=1
+            Spielfeld
+        else
+            gameover
+        fi
+    done
+    level+=1
+done
+
+
+
