@@ -85,6 +85,8 @@ function Abfragespieler() {
 function Sieg() {
 	if [ $b == 0 ];then
 		echo Spieler "$1" hat gewonnen!
+		echo "ANIKAI-Taste drücken"
+		read -s -n1
 		exit 0
 	fi
 }
@@ -92,6 +94,8 @@ function Sieg() {
 function Unentschieden() {
 	while [ "$zaehler" == 9  ] && [ $b == 1 ]; do
 		echo Unentschieden
+		echo "ANIKAI-Taste drücken"
+		read -s -n1
 		exit 0
 	done
 	

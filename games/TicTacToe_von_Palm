@@ -72,16 +72,15 @@ while [ 1 == 1 ]; do
     fi
   done
   checkgame
+  clear
+  echo "Player $player's turn: ($sym)"
+  print
   if [ $gamestatus != 1 ]; then
     echo "Gameover"
     player=$((player % 2 + 1))
     echo "Player $player ($sym) win!!"
-    while [ 1 == 1 ]; do
-      read -r cmd n
-      if [ $cmd == "restart" ]; then
-        reset
-        break
-      fi
-    done
+    echo "Press ANIKAI"
+		read -s -n1
+    exit 0
   fi
 done

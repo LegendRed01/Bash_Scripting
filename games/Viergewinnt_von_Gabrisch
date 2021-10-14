@@ -199,3 +199,7 @@ checkhorizontal
 checkvertical
 winner
 done
+
+		echo "ANIKAI-Taste drücken"
+		read -s -n1
+		exit 0
