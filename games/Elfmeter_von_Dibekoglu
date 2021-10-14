@@ -2,9 +2,9 @@
 
 # Variablen
 declare -A spieler
-declare -a versuch1
-declare -a versuch2
-declare -A versuch
+declare -a versuch1=()
+declare -a versuch2=()
+declare -A versuch=()
 declare -i maximale_versuche
 declare -i amzug=1
 declare -i Spieleranzahl=1

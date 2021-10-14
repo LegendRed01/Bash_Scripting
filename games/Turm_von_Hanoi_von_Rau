@@ -4,13 +4,17 @@ unterziel=0
 trans=0
 merken=0
 cnt=0
-#setzen=0
+
+function anykai () {
+    echo "ungültiger Zug..."
+    echo "ANIKAI-Taste drücken"
+    warten
+}
 
 function gameover () {
 if [ $L1 = $Stab ] && [ $M1 = $Stab ]; 
     then
     #echo "---------------------------------------------------"
-    
     echo
     echo "     GGG   AA    MMM  EEEE  OO   V  V  EEEE  RRR "
     echo "    G     A  A  M MM  E    O  O  V  V  E     R  R"
@@ -18,7 +22,6 @@ if [ $L1 = $Stab ] && [ $M1 = $Stab ];
     echo "    G  G  A  A  M  M  E    O  O   V V  E     R R "
     echo "     GGG  A  A  M  M  EEEE  OO     V   EEEE  R  R" ; echo
     echo "ANIKAI-Taste drücken Ende..."
-
     warten
     clear
     exit
@@ -31,17 +34,15 @@ function wartev () {
 function warten () {
     read -s -n1
 }
-function backset () {
-    #setzen=merken
+function backset () 
     eval ${merken}="\ \ \ \ \ \ \ \ \|\ \ \ \ \ \ \ \ "
 }
 
 
-
+#Vergleich der Scheibengrössen von & nach
 function testscheibe () {
 Scheibe8
 }
-
 function Scheibe8 ( ) {
     #echo "        X        "
     if [ "$trans" = "$S8" ]
@@ -77,7 +78,6 @@ function Scheibe6 ( ) {
     return
     fi
 }
-
 function Scheibe5 ( ) {
     #echo "     XXXXXXX     "
     if [ "$trans" = "$S5" ] && [ "$unterziel" != "$S6" ] && [ "$unterziel" != "$S7" ] && [ "$unterziel" != "$S8" ]
@@ -109,231 +109,270 @@ Stab ( ) {
 
 
 function testvonstab1 () {
+    #Ebene 1 leer
+    if [ "$L1" = "$Stab" ]
+    then
+    let cnt+=1
+    trans=$Stab
+    anykai
+    fi
+
     #Ebene 1
     if [ "$L1" != "$Stab" ] && [ "$L2" = "$Stab" ]
     then
     trans=$L1
-    #Zwischenschritt einbauen
     merken=L1
-    #L1=$Stab
-    #wartev
     fi
    
     #Ebene 2
     if [ "$L2" != "$Stab" ] && [ "$L3" = "$Stab" ]
     then
     trans=$L2
-    #Zwischenschritt einbauen
     merken=L2
-    #L2=$Stab
-    #wartev
     fi
+
     #Ebene 3
     if [ "$L3" != "$Stab" ] && [ "$L4" = "$Stab" ]
     then
     trans=$L3
-    #Zwischenschritt einbauen
     merken=L3
-    #L3=$Stab
-    #wartev
     fi
+
     #Ebene 4
     if [ "$L4" != "$Stab" ] && [ "$L5" = "$Stab" ]
     then
     trans=$L4
-    #Zwischenschritt einbauen
     merken=L4
-    #L4=$Stab
-    #wartev
     fi
 }
 
 function testvonstab2 () {
+    #Ebene 1 leer
+    if [ "$M1" = "$Stab" ]
+    then
+    let cnt+=1
+    trans=$Stab
+    anykai
+    fi
+
     #Ebene 1
     if [ "$M1" != "$Stab" ] && [ "$M2" = "$Stab" ]
     then
     trans=$M1
-    #Zwischenschritt einbauen
     merken=M1
-    #M1=$Stab
-    #wartev
     fi
+
     #Ebene 2
     if [ "$M2" != "$Stab" ] && [ "$M3" = "$Stab" ]
     then
     trans=$M2
-    #Zwischenschritt einbauen
     merken=M2
-    #M2=$Stab
-    #wartev
     fi
+
     #Ebene 3
     if [ "$M3" != "$Stab" ] && [ "$M4" = "$Stab" ]
     then
     trans=$M3
-    #Zwischenschritt einbauen
     merken=M3
-    #M3=$Stab
-    #wartev
     fi
+
     #Ebene 4
     if [ "$M4" != "$Stab" ] && [ "$M5" = "$Stab" ]
     then
     trans=$M4
-    #Zwischenschritt einbauen
     merken=M4
-    #M4=$Stab
-    #wartev
-    fi
-    
+    fi    
 }
 
 function testvonstab3 () {
+    #Ebene 1 leer
+    if [ "$R1" = "$Stab" ]
+    then
+    let cnt+=1
+    trans=$Stab
+    anykai
+    fi
+
     #Ebene 1
     if [ "$R1" != "$Stab" ] && [ "$R2" = "$Stab" ]
     then
     trans=$R1
-    #Zwischenschritt einbauen
     merken=R1
-    #R1=$Stab
-    #wartev
     fi
+
     #Ebene 2
     if [ "$R2" != "$Stab" ] && [ "$R3" = "$Stab" ]
     then
     trans=$R2
-    #Zwischenschritt einbauen
     merken=R2
-    #R2=$Stab
-    #wartev
     fi
+
     #Ebene 3
     if [ "$R3" != "$Stab" ] && [ "$R4" = "$Stab" ]
     then
     trans=$R3
-    #Zwischenschritt einbauen
     merken=R3
-    #wartev
     fi
+
     #Ebene 4
     if [ "$R4" != "$Stab" ] && [ "$R5" = "$Stab" ]
     then
     trans=$R4
-    #Zwischenschritt einbauen
     merken=R4
-    #wartev
     fi
 }
 
 function testnachstab1 () {
+    #trans=Stab
+    if [ $trans = $Stab ]
+    then
+    return
+    fi
+
+    #trans=Lx
+    if [ $trans = $L1 ]
+    then
+        L1=$trans
+        let cnt+=1
+        anykai
+        return
+    fi
+    if [ $trans = $L2 ]
+    then
+        L2=$trans
+        let cnt+=1
+        anykai
+        return
+    fi
+    if [ $trans = $L3 ]
+    then
+        L3=$trans
+        let cnt+=1
+        anykai
+        return
+    fi
+    if [ $trans = $L4 ]
+    then
+        L4=$trans
+        let cnt+=1
+        anykai
+        return
+    fi
+
     #Ebene 1
     if [ $L1 = $Stab ]
         then
         L1=$trans
         backset
         let cnt+=1
-        #gameover
-        
-
-        #warten
         return
-        
     fi
    
     #Ebene 2
     if [ $L2 = $Stab ] && [ $L1 != $Stab ]
     then
     unterziel=$L1
-    #warten
     testscheibe
     if [ $erg = ja ]
     then
     L2=$trans
     backset
     let cnt+=1
-    #gameover
-    
-    #warten
     return
     fi
     if [ $erg = nein ]
     then
-    echo "ungültiger Zug..."
-    echo "ANIKAI-Taste drücken"
-    warten
-    #vonsicherung=$trans
-    #eingabe
+    let cnt+=1
+    anykai
     return
     fi
-    
     fi
+
     #Ebene 3
     if [ $L3 = $Stab ] && [ $L2 != $Stab ]
     then
     unterziel=$L2
-    #warten
     testscheibe
     if [ $erg = ja ]
     then
     L3=$trans
     backset
     let cnt+=1
-    #gameover
-    
-    #warten
     return
     fi
     if [ $erg = nein ]
     then
-    echo "ungültiger Zug..."
-    echo "ANIKAI-Taste drücken"
-    warten
-    #vonsicherung=$trans
-    #eingabe
+    let cnt+=1
+    anykai
     return
     fi
-    
     fi
 
     #Ebene 4
     if [ $L4 = $Stab ] && [ $L3 != $Stab ]
     then
     unterziel=$L3
-    #warten
     testscheibe
     if [ $erg = ja ]
     then
     L4=$trans
     backset
     let cnt+=1
-    #gameover
-    
-    #warten
     return
     fi
     if [ $erg = nein ]
     then
-    echo "ungültiger Zug..."
-    echo "ANIKAI-Taste drücken"
-    warten
-    #vonsicherung=$trans
-    #eingabe
+    let cnt+=1
+    anykai
     return
     fi
-    
     fi
 }
 
 function testnachstab2 () {
+    #trans=Stab
+    if [ $trans = $Stab ]
+    then
+    return
+    fi
+
+    #trans=M1
+    if [ $trans = $M1 ]
+    then
+        M1=$trans
+        let cnt+=1
+        anykai
+        return
+    fi
+    if [ $trans = $M2 ]
+    then
+        M2=$trans
+        let cnt+=1
+        anykai
+        return
+    fi
+    if [ $trans = $M3 ]
+    then
+        M3=$trans
+        let cnt+=1
+        anykai
+        return
+    fi
+    if [ $trans = $M4 ]
+    then
+        M4=$trans
+        let cnt+=1
+        anykai
+        return
+    fi
+    
+
     #Ebene 1
     if [ $M1 = $Stab ]
         then
         M1=$trans
         backset
         let cnt+=1
-        #gameover
-        
-        #warten
         return
         
     fi
@@ -342,187 +381,173 @@ function testnachstab2 () {
     if [ $M2 = $Stab ] && [ $M1 != $Stab ]
     then
     unterziel=$M1
-    #warten
     testscheibe
     if [ $erg = ja ]
     then
     M2=$trans
     backset
     let cnt+=1
-    #gameover
-    
-    #warten
     return
     fi
     if [ $erg = nein ]
     then
-    echo "ungültiger Zug..."
-    echo "ANIKAI-Taste drücken"
-    warten
-    #vonsicherung=$trans
-    #eingabe
+    let cnt+=1
+    anykai
     return
     fi
-    
     fi
+
     #Ebene 3
     if [ $M3 = $Stab ] && [ $M2 != $Stab ]
     then
     unterziel=$M2
-    #warten
     testscheibe
     if [ $erg = ja ]
     then
     M3=$trans
     backset
     let cnt+=1
-    #gameover
-    
-    #warten
     return
     fi
     if [ $erg = nein ]
     then
-    echo "ungültiger Zug..."
-    echo "ANIKAI-Taste drücken"
-    warten
-    #vonsicherung=$trans
-    #eingabe
+    let cnt+=1
+    anykai
     return
     fi
-    
     fi
 
     #Ebene 4
     if [ $M4 = $Stab ] && [ $M3 != $Stab ]
     then
     unterziel=$M3
-    #warten
     testscheibe
     if [ $erg = ja ]
     then
     M4=$trans
     backset
     let cnt+=1
-    #gameover
-    
-    #warten
     return
     fi
     if [ $erg = nein ]
     then
-    echo "ungültiger Zug..."
-    echo "ANIKAI-Taste drücken"
-    warten
-    #vonsicherung=$trans
-    #eingabe
+    let cnt+=1
+    anykai
     return
     fi
-    
     fi
 }
 
-function testnachstab3 () {
+function testnachstab3 () { 
+    #$trans=$Stab
+    if [ $trans = $Stab ]
+    then
+    return
+    fi 
+
+    #$trans=Rx
+    if [ $trans = $R1 ]
+    then
+        R1=$trans
+        let cnt+=1
+        anykai
+        return
+    fi
+    if [ $trans = $R2 ]
+    then
+        R2=$trans
+        let cnt+=1
+        anykai
+        return
+    fi
+    if [ $trans = $R3 ]
+    then
+        R3=$trans
+        let cnt+=1
+        anykai
+        return
+    fi
+    if [ $trans = $R4 ]
+    then
+        R4=$trans
+        let cnt+=1
+        anykai
+        return
+    fi
+
+
     #Ebene 1
-       if [ $R1 = $Stab ]
+    if [ $R1 = $Stab ]
         then
         R1=$trans
         backset
         let cnt+=1
-        #gameover
-        
-        #warten
         return
-        
     fi
-    #eingabe
+
     #Ebene 2
     if [ $R2 = $Stab ] && [ $R1 != $Stab ]
     then
     unterziel=$R1
-    #warten
     testscheibe
     if [ $erg = ja ]
     then
     R2=$trans
     backset
     let cnt+=1
-    #gameover
-    
-    #warten
     return
     fi
     if [ $erg = nein ]
     then
-    echo "ungültiger Zug..."
-    echo "ANIKAI-Taste drücken"
-    warten
-    #vonsicherung=$trans
-    #eingabe
+    let cnt+=1
+    anykai
     return
     fi
-    
     fi
+
     #Ebene 3
     if [ $R3 = $Stab ] && [ $R2 != $Stab ]
     then
     unterziel=$R2
-    #warten
     testscheibe
     if [ $erg = ja ]
     then
     R3=$trans
     backset
     let cnt+=1
-    #gameover
-    
-    #warten
     return
     fi
     if [ $erg = nein ]
     then
-    echo "ungültiger Zug..."
-    echo "ANIKAI-Taste drücken"
-    warten
-    #vonsicherung=$trans
-    #eingabe
+    let cnt+=1
+    anykai
     return
     fi
-    
     fi
 
     #Ebene 4
     if [ $R4 = $Stab ] && [ $R3 != $Stab ]
     then
     unterziel=$R3
-    #warten
     testscheibe
     if [ $erg = ja ]
     then
     R4=$trans
     backset
     let cnt+=1
-    #gameover
-    
-    #warten
     return
     fi
     if [ $erg = nein ]
     then
-    echo "ungültiger Zug..."
-    echo "ANIKAI-Taste drücken"
-    warten
-    #vonsicherung=$trans
-    #eingabe
+    let cnt+=1
     return
     fi
-    
     fi
 }
 
 function eingabe () {
    
-   
+ #trans=0  
    echo "Exit = x"
 read -n1 -p "von : " von; if [ $von = x ]
     then
@@ -536,6 +561,7 @@ read -n1 -p "nach: " nach; if [ $nach = x ]
     exit
 fi 
 echo
+
 }
 
 
@@ -648,5 +674,5 @@ if [ $nach = 3 ]; then
    testnachstab3
 fi
 
-x
+
 done
