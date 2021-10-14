@@ -1,0 +1,1603 @@
+#!/usr/bin/bash
+function bit() {
+    clear
+    header
+    echo -e "\033[36m        B        "
+    echo -e "\033[36m       BBB       "
+    echo -e "\033[36m      BBBBB      "
+    echo -e "\033[36m       BBB       "
+    echo -e "\033[36m        B        "
+    echo -e "\033[37m      "
+
+}
+function bityes() {
+    clear
+    header
+    echo -e "\033[32m      Y    YY      "
+    echo -e "\033[32m      Y   YY       "
+    echo -e "\033[32m       YYYY        "
+    echo -e "\033[32m       YYY         "
+    echo -e "\033[32m        Y          "
+    echo -e "\033[37m     "
+    text2
+    eingabe2
+    sleep 1s
+    #    clear
+    #    bit
+
+}
+
+function bitno() {
+    clear
+    header
+    echo -e "\033[31m      N   NN     "
+    echo -e "\033[31m       N NN      "
+    echo -e "\033[31m       NNN       "
+    echo -e "\033[31m      NN N       "
+    echo -e "\033[31m     NN   N      "
+    echo -e "\033[37m     "
+    text2
+    eingabe2
+    sleep 1s
+    #    clear
+    #    bit
+
+}
+function header() {
+    echo -e "Rescue The \033[36mBit\033[37m!!!"
+    echo
+}
+
+function textkpl() {
+    echo -e "Das ist \033[36mBIT\033[37m."
+    echo -e "\033[36mBIT\033[37m hat sich im RAM verlaufen."
+    echo -e "Hilf \033[36mBIT\033[37m, den Weg zurück auf die Datenautobahn zu finden."
+    echo -e "\033[36mBIT\033[37m wird dir immer sagen, ob deine Richtungsangabe funktioniert."
+    echo -e "Steuere \033[36mBIT\033[37m mit dem NUMPAD."
+    echo "8(oben), 2(unten), 4(links), 6(rechts), x(exit)"
+    echo
+    echo "ANIKAI-Taste drücken für Spielstart..."
+}
+
+function text1() {
+    echo -e "Das ist \033[36mBIT\033[37m."
+}
+
+function text2() {
+    echo -e "Steuerung NUMPAD"
+    echo
+    echo "        8"
+    echo "     4  x  6"
+    echo "        2 "
+    echo
+}
+
+function eingabe1() {
+    read -n1 -p "Gib eine Richtung vor: " rtg
+}
+
+function eingabe2() {
+    echo "Gib eine Richtung vor: "
+}
+function beenden() {
+    if [ $rtg = "x" ]; then
+        clear
+        exit
+    fi
+}
+
+function wronginput() {
+    if [ $rtg != "2" ] || [ $rtg != "4" ] || [ $rtg != "6" ] || [ $rtg != "8" ] || [ $rtg != "2" ]; then
+        bitno
+        text2
+    fi
+}
+
+function gameende() {
+    clear
+    header
+    clear
+    header
+    echo -e "\033[32m      Y    YY      "
+    echo -e "\033[32m      Y   YY       "
+    echo -e "\033[32m       YYYY        "
+    echo -e "\033[32m       YYY         "
+    echo -e "\033[32m        Y          "
+    echo -e "\033[37m     "
+    sleep 2s
+    clear
+
+    echo -e "\033[36m    B        B       "
+    echo -e "\033[36m            BBB      B"
+    echo -e "\033[36m B      B    B        "
+    echo -e "\033[36mBBB    BBB            "
+    echo -e "\033[36m B    BBBBB      B    "
+    echo -e "\033[36m       BBB      BBB   "
+    echo -e "\033[36m        B    B   B    "
+    echo -e "\033[36m            BBB"
+    echo -e "\033[36mB            B"
+    echo -e "\033[37m      "
+    echo
+    echo -e "GESCHAFFT!!! \033[36mBIT\033[37m ist zurück     "
+    echo "               auf der Datenautobahn..."
+    echo
+    echo "ANIKAI-Taste drücken zum Beenden!!!"
+    read -s -n1
+    clear
+    exit
+}
+
+function z01() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  |  "
+    echo -e ". \033[36mB\033[37m ."
+    echo "  S  "
+    echo " z01"
+    eingabe1
+    beenden
+    if [ $rtg = "8" ]; then
+        bityes
+        z02
+    fi
+    if [ $rtg = "4" ] || [ $rtg = "2" ] || [ $rtg = "6" ]; then
+        bitno
+        z01
+    fi
+    wronginput
+    echo "z01"
+    eingabe1
+}
+
+function z02() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  |  "
+    echo -e "--\033[36mB\033[37m--"
+    echo "  |  "
+    echo " z02"
+    eingabe1
+    beenden
+    if [ $rtg = "2" ]; then
+        bityes
+        z01
+    fi
+    if [ $rtg = "8" ]; then
+        bityes
+        z09
+    fi
+    if [ $rtg = "6" ]; then
+        bityes
+        z03
+    fi
+    if [ $rtg = "4" ]; then
+        bityes
+        z52
+    fi
+    wronginput
+    echo "z02"
+    eingabe1
+}
+
+function z03() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  .  "
+    echo -e "--\033[36mB\033[37m--"
+    echo "  .  "
+    echo " z03"
+    eingabe1
+    beenden
+    if [ $rtg = "4" ]; then
+        bityes
+        z02
+    fi
+    if [ $rtg = "6" ]; then
+        bityes
+        z04
+    fi
+    if [ $rtg = "8" ] || [ $rtg = "2" ]; then
+        bitno
+        z03
+    fi
+    wronginput
+    echo "z03"
+    eingabe1
+}
+
+function z04() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  |  "
+    echo -e "--\033[36mB\033[37m ."
+    echo "  |  "
+    echo " z04"
+    eingabe1
+    beenden
+    if [ $rtg = "4" ]; then
+        bityes
+        z03
+    fi
+    if [ $rtg = "2" ]; then
+        bityes
+        z05
+    fi
+    if [ $rtg = "8" ]; then
+        bityes
+        z06
+    fi
+    if [ $rtg = "6" ]; then
+        bitno
+        z04
+    fi
+    wronginput
+    echo "z04"
+    eingabe1
+}
+
+function z05() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  |  "
+    echo -e ". \033[36mB\033[37m ."
+    echo "  .  "
+    echo " z05"
+    eingabe1
+    beenden
+    if [ $rtg = "8" ]; then
+        bityes
+        z04
+    fi
+    if [ $rtg = "4" ] || [ $rtg = "2" ] || [ $rtg = "6" ]; then
+        bitno
+        z05
+    fi
+    wronginput
+    echo "z05"
+    eingabe1
+}
+
+function z09() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  |  "
+    echo -e ". \033[36mB\033[37m ."
+    echo "  |  "
+    echo " z09"
+    eingabe1
+    beenden
+    if [ $rtg = "8" ]; then
+        bityes
+        z10
+    fi
+    if [ $rtg = "2" ]; then
+        bityes
+        z02
+    fi
+    if [ $rtg = "4" ] || [ $rtg = "6" ]; then
+        bitno
+        z09
+    fi
+    wronginput
+    echo "z09"
+    eingabe1
+}
+
+function z06() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  |  "
+    echo -e ". \033[36mB\033[37m ."
+    echo "  |  "
+    echo " z06"
+    eingabe1
+    beenden
+    if [ $rtg = "8" ]; then
+        bityes
+        z07
+    fi
+    if [ $rtg = "2" ]; then
+        bityes
+        z04
+    fi
+    if [ $rtg = "4" ] || [ $rtg = "6" ]; then
+        bitno
+        z06
+    fi
+    wronginput
+    echo "z06"
+    eingabe1
+}
+
+function z52() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  .  "
+    echo -e "--\033[36mB\033[37m--"
+    echo "  .  "
+    echo " z52"
+    eingabe1
+    beenden
+    if [ $rtg = "4" ]; then
+        bityes
+        z25
+    fi
+    if [ $rtg = "6" ]; then
+        bityes
+        z02
+    fi
+    if [ $rtg = "8" ] || [ $rtg = "2" ]; then
+        bitno
+        z52
+    fi
+    wronginput
+    echo "z52"
+    eingabe1
+}
+
+function z25() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  .  "
+    echo -e "--\033[36mB\033[37m--"
+    echo "  .  "
+    echo " z25"
+    eingabe1
+    beenden
+    if [ $rtg = "4" ]; then
+        bityes
+        z26
+    fi
+    if [ $rtg = "6" ]; then
+        bityes
+        z52
+    fi
+    if [ $rtg = "8" ] || [ $rtg = "2" ]; then
+        bitno
+        z25
+    fi
+    wronginput
+    echo "z25"
+    eingabe1
+}
+
+function z10() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  .  "
+    echo -e "--\033[36mB\033[37m--"
+    echo "  |  "
+    echo " z10"
+    eingabe1
+    beenden
+    if [ $rtg = "4" ]; then
+        bityes
+        z11
+    fi
+    if [ $rtg = "6" ]; then
+        bityes
+        z08
+    fi
+    if [ $rtg = "2" ]; then
+        bityes
+        z09
+    fi
+    if [ $rtg = "8" ]; then
+        bitno
+        z10
+    fi
+    wronginput
+    echo "z10"
+    eingabe1
+}
+
+function z26() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  .  "
+    echo -e "--\033[36mB\033[37m--"
+    echo "  |  "
+    echo " z26"
+    eingabe1
+    beenden
+    if [ $rtg = "4" ]; then
+        bityes
+        z27
+    fi
+    if [ $rtg = "6" ]; then
+        bityes
+        z25
+    fi
+    if [ $rtg = "2" ]; then
+        bityes
+        z24
+    fi
+    if [ $rtg = "8" ]; then
+        bitno
+        z26
+    fi
+    wronginput
+    echo "z26"
+    eingabe1
+}
+
+function z31() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  |  "
+    echo -e ". \033[36mB\033[37m ."
+    echo "  |  "
+    echo " z31"
+    eingabe1
+    beenden
+    if [ $rtg = "8" ]; then
+        bityes
+        z33
+    fi
+    if [ $rtg = "2" ]; then
+        bityes
+        z30
+    fi
+    if [ $rtg = "4" ] || [ $rtg = "6" ]; then
+        bitno
+        z31
+    fi
+    wronginput
+    echo "z31"
+    eingabe1
+}
+
+function z44() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  |  "
+    echo -e ". \033[36mB\033[37m ."
+    echo "  |  "
+    echo " z44"
+    eingabe1
+    beenden
+    if [ $rtg = "8" ]; then
+        bityes
+        z43
+    fi
+    if [ $rtg = "2" ]; then
+        bityes
+        z33
+    fi
+    if [ $rtg = "4" ] || [ $rtg = "6" ]; then
+        bitno
+        z44
+    fi
+    wronginput
+    echo "z44"
+    eingabe1
+}
+
+function z34() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  |  "
+    echo -e ". \033[36mB\033[37m ."
+    echo "  |  "
+    echo " z34"
+    eingabe1
+    beenden
+    if [ $rtg = "8" ]; then
+        bityes
+        z35
+    fi
+    if [ $rtg = "2" ]; then
+        bityes
+        z32
+    fi
+    if [ $rtg = "4" ] || [ $rtg = "6" ]; then
+        bitno
+        z34
+    fi
+    wronginput
+    echo "z34"
+    eingabe1
+}
+
+function z13() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  |  "
+    echo -e ". \033[36mB\033[37m ."
+    echo "  |  "
+    echo " z13"
+    eingabe1
+    beenden
+    if [ $rtg = "8" ]; then
+        bityes
+        z14
+    fi
+    if [ $rtg = "2" ]; then
+        bityes
+        z11
+    fi
+    if [ $rtg = "4" ] || [ $rtg = "6" ]; then
+        bitno
+        z13
+    fi
+    wronginput
+    echo "z13"
+    eingabe1
+}
+
+function z18() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  |  "
+    echo -e ". \033[36mB\033[37m ."
+    echo "  |  "
+    echo " z18"
+    eingabe1
+    beenden
+    if [ $rtg = "8" ]; then
+        bityes
+        z19
+    fi
+    if [ $rtg = "2" ]; then
+        bityes
+        z17
+    fi
+    if [ $rtg = "4" ] || [ $rtg = "6" ]; then
+        bitno
+        z18
+    fi
+    wronginput
+    echo "z18"
+    eingabe1
+}
+
+function z19() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  |  "
+    echo -e ". \033[36mB\033[37m ."
+    echo "  |  "
+    echo " z19"
+    eingabe1
+    beenden
+    if [ $rtg = "8" ]; then
+        bityes
+        z20
+    fi
+    if [ $rtg = "2" ]; then
+        bityes
+        z18
+    fi
+    if [ $rtg = "4" ] || [ $rtg = "6" ]; then
+        bitno
+        z19
+    fi
+    wronginput
+    echo "z19"
+    eingabe1
+}
+
+function z47() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  |  "
+    echo -e ". \033[36mB\033[37m ."
+    echo "  |  "
+    echo " z47"
+    eingabe1
+    beenden
+    if [ $rtg = "8" ]; then
+        bityes
+        z46
+    fi
+    if [ $rtg = "2" ]; then
+        bityes
+        z35
+    fi
+    if [ $rtg = "4" ] || [ $rtg = "6" ]; then
+        bitno
+        z47
+    fi
+    wronginput
+    echo "z47"
+    eingabe1
+}
+
+function z46() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  |  "
+    echo -e ". \033[36mB\033[37m ."
+    echo "  |  "
+    echo " z46"
+    eingabe1
+    beenden
+    if [ $rtg = "8" ]; then
+        bityes
+        z42
+    fi
+    if [ $rtg = "2" ]; then
+        bityes
+        z47
+    fi
+    if [ $rtg = "4" ] || [ $rtg = "6" ]; then
+        bitno
+        z46
+    fi
+    wronginput
+    echo "z46"
+    eingabe1
+}
+
+function z41() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  .  "
+    echo -e "--\033[36mB\033[37m--"
+    echo "  .  "
+    echo " z41"
+    eingabe1
+    beenden
+    if [ $rtg = "4" ]; then
+        bityes
+        z39
+    fi
+    if [ $rtg = "6" ]; then
+        bityes
+        z42
+    fi
+    if [ $rtg = "8" ] || [ $rtg = "2" ]; then
+        bitno
+        z41
+    fi
+    wronginput
+    echo "z41"
+    eingabe1
+}
+
+function z48() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  .  "
+    echo -e "--\033[36mB\033[37m--"
+    echo "  .  "
+    echo " z48"
+    eingabe1
+    beenden
+    if [ $rtg = "4" ]; then
+        bityes
+        z42
+    fi
+    if [ $rtg = "6" ]; then
+        bityes
+        z49
+    fi
+    if [ $rtg = "8" ] || [ $rtg = "2" ]; then
+        bitno
+        z48
+    fi
+    wronginput
+    echo "z48"
+    eingabe1
+}
+
+function z37() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  .  "
+    echo -e "--\033[36mB\033[37m--"
+    echo "  .  "
+    echo " z37"
+    eingabe1
+    beenden
+    if [ $rtg = "4" ]; then
+        bityes
+        z38
+    fi
+    if [ $rtg = "6" ]; then
+        bityes
+        z23
+    fi
+    if [ $rtg = "8" ] || [ $rtg = "2" ]; then
+        bitno
+        z37
+    fi
+    wronginput
+    echo "z37"
+    eingabe1
+}
+
+function z21() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  .  "
+    echo -e "--\033[36mB\033[37m--"
+    echo "  .  "
+    echo " z21"
+    eingabe1
+    beenden
+    if [ $rtg = "4" ]; then
+        bityes
+        z22
+    fi
+    if [ $rtg = "6" ]; then
+        bityes
+        z20
+    fi
+    if [ $rtg = "8" ] || [ $rtg = "2" ]; then
+        bitno
+        z21
+    fi
+    wronginput
+    echo "z21"
+    eingabe1
+}
+
+function z16() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  .  "
+    echo -e "--\033[36mB\033[37m--"
+    echo "  .  "
+    echo " z16"
+    eingabe1
+    beenden
+    if [ $rtg = "4" ]; then
+        bityes
+        z15
+    fi
+    if [ $rtg = "6" ]; then
+        bityes
+        z17
+    fi
+    if [ $rtg = "8" ] || [ $rtg = "2" ]; then
+        bitno
+        z16
+    fi
+    wronginput
+    echo "z16"
+    eingabe1
+}
+
+function z15() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  .  "
+    echo -e "--\033[36mB\033[37m--"
+    echo "  .  "
+    echo " z15"
+    eingabe1
+    beenden
+    if [ $rtg = "4" ]; then
+        bityes
+        z14
+    fi
+    if [ $rtg = "6" ]; then
+        bityes
+        z16
+    fi
+    if [ $rtg = "8" ] || [ $rtg = "2" ]; then
+        bitno
+        z15
+    fi
+    wronginput
+    echo "z15"
+    eingabe1
+}
+
+function z45() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  .  "
+    echo -e "--\033[36mB\033[37m--"
+    echo "  .  "
+    echo " z45"
+    eingabe1
+    beenden
+    if [ $rtg = "4" ]; then
+        bityes
+        z43
+    fi
+    if [ $rtg = "6" ]; then
+        bityes
+        z35
+    fi
+    if [ $rtg = "8" ] || [ $rtg = "2" ]; then
+        bitno
+        z45
+    fi
+    wronginput
+    echo "z45"
+    eingabe1
+}
+
+function z51() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  .  "
+    echo -e "--\033[36mB\033[37m--"
+    echo "  .  "
+    echo " z51"
+    eingabe1
+    beenden
+    if [ $rtg = "4" ]; then
+        bityes
+        z33
+    fi
+    if [ $rtg = "6" ]; then
+        bityes
+        z32
+    fi
+    if [ $rtg = "8" ] || [ $rtg = "2" ]; then
+        bitno
+        z51
+    fi
+    wronginput
+    echo "z51"
+    eingabe1
+}
+
+function z27() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  .  "
+    echo -e "--\033[36mB\033[37m--"
+    echo "  .  "
+    echo " z27"
+    eingabe1
+    beenden
+    if [ $rtg = "4" ]; then
+        bityes
+        z29
+    fi
+    if [ $rtg = "6" ]; then
+        bityes
+        z26
+    fi
+    if [ $rtg = "8" ] || [ $rtg = "2" ]; then
+        bitno
+        z27
+    fi
+    wronginput
+    echo "z27"
+    eingabe1
+}
+
+function z08() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  .  "
+    echo -e "--\033[36mB\033[37m--"
+    echo "  .  "
+    echo " z08"
+    eingabe1
+    beenden
+    if [ $rtg = "4" ]; then
+        bityes
+        z10
+    fi
+    if [ $rtg = "6" ]; then
+        bityes
+        z07
+    fi
+    if [ $rtg = "8" ] || [ $rtg = "2" ]; then
+        bitno
+        z08
+    fi
+    wronginput
+    echo "z08"
+    eingabe1
+}
+
+function z28() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  |  "
+    echo -e ". \033[36mB\033[37m ."
+    echo "  .  "
+    echo " z28"
+    eingabe1
+    beenden
+    if [ $rtg = "8" ]; then
+        bityes
+        z29
+    fi
+    if [ $rtg = "6" ] || [ $rtg = "2" ] || [ $rtg = "4" ]; then
+        bitno
+        z28
+    fi
+    wronginput
+    echo "z28"
+    eingabe1
+}
+
+function z40() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  |  "
+    echo -e ". \033[36mB\033[37m ."
+    echo "  .  "
+    echo " z40"
+    eingabe1
+    beenden
+    if [ $rtg = "8" ]; then
+        bityes
+        z39
+    fi
+    if [ $rtg = "6" ] || [ $rtg = "2" ] || [ $rtg = "4" ]; then
+        bitno
+        z40
+    fi
+    wronginput
+    echo "z40"
+    eingabe1
+}
+
+function z50() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  |  "
+    echo -e ". \033[36mB\033[37m ."
+    echo "  .  "
+    echo " z50"
+    eingabe1
+    beenden
+    if [ $rtg = "8" ]; then
+        bityes
+        z38
+    fi
+    if [ $rtg = "6" ] || [ $rtg = "2" ] || [ $rtg = "4" ]; then
+        bitno
+        z50
+    fi
+    wronginput
+    echo "z50"
+    eingabe1
+}
+
+function z36() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  .  "
+    echo -e "--\033[36mB\033[37m ."
+    echo "  .  "
+    echo " z36"
+    eingabe1
+    beenden
+    if [ $rtg = "4" ]; then
+        bityes
+        z35
+    fi
+    if [ $rtg = "6" ] || [ $rtg = "2" ] || [ $rtg = "8" ]; then
+        bitno
+        z36
+    fi
+    wronginput
+    echo "z36"
+    eingabe1
+}
+
+function z39() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  .  "
+    echo -e ". \033[36mB\033[37m--"
+    echo "  |  "
+    echo " z39"
+    eingabe1
+    beenden
+    if [ $rtg = "6" ]; then
+        bityes
+        z41
+    fi
+    if [ $rtg = "2" ]; then
+        bityes
+        z40
+    fi
+    if [ $rtg = "4" ] || [ $rtg = "8" ]; then
+        bitno
+        z39
+    fi
+    wronginput
+    echo "z39"
+    eingabe1
+}
+
+function z43() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  .  "
+    echo -e ". \033[36mB\033[37m--"
+    echo "  |  "
+    echo " z43"
+    eingabe1
+    beenden
+    if [ $rtg = "6" ]; then
+        bityes
+        z45
+    fi
+    if [ $rtg = "2" ]; then
+        bityes
+        z44
+    fi
+    if [ $rtg = "4" ] || [ $rtg = "8" ]; then
+        bitno
+        z43
+    fi
+    wronginput
+    echo "z43"
+    eingabe1
+}
+
+function z14() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  .  "
+    echo -e ". \033[36mB\033[37m--"
+    echo "  |  "
+    echo " z14"
+    eingabe1
+    beenden
+    if [ $rtg = "6" ]; then
+        bityes
+        z15
+    fi
+    if [ $rtg = "2" ]; then
+        bityes
+        z13
+    fi
+    if [ $rtg = "4" ] || [ $rtg = "8" ]; then
+        bitno
+        z14
+    fi
+    wronginput
+    echo "z14"
+    eingabe1
+}
+
+function z22() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  .  "
+    echo -e ". \033[36mB\033[37m--"
+    echo "  |  "
+    echo " z22"
+    eingabe1
+    beenden
+    if [ $rtg = "6" ]; then
+        bityes
+        z21
+    fi
+    if [ $rtg = "2" ]; then
+        bityes
+        z23
+    fi
+    if [ $rtg = "4" ] || [ $rtg = "8" ]; then
+        bitno
+        z22
+    fi
+    wronginput
+    echo "z22"
+    eingabe1
+}
+
+function z49() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  .  "
+    echo -e "--\033[36mB\033[37m ."
+    echo "  |  "
+    echo " z49"
+    eingabe1
+    beenden
+    if [ $rtg = "2" ]; then
+        bityes
+        z38
+    fi
+    if [ $rtg = "4" ]; then
+        bityes
+        z48
+    fi
+    if [ $rtg = "6" ] || [ $rtg = "8" ]; then
+        bitno
+        z49
+    fi
+    wronginput
+    echo "z49"
+    eingabe1
+}
+
+function z20() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  .  "
+    echo -e "--\033[36mB\033[37m ."
+    echo "  |  "
+    echo " z20"
+    eingabe1
+    beenden
+    if [ $rtg = "2" ]; then
+        bityes
+        z19
+    fi
+    if [ $rtg = "4" ]; then
+        bityes
+        z21
+    fi
+    if [ $rtg = "6" ] || [ $rtg = "8" ]; then
+        bitno
+        z20
+    fi
+    wronginput
+    echo "z20"
+    eingabe1
+}
+
+function z07() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  .  "
+    echo -e "--\033[36mB\033[37m ."
+    echo "  |  "
+    echo " z07"
+    eingabe1
+    beenden
+    if [ $rtg = "2" ]; then
+        bityes
+        z06
+    fi
+    if [ $rtg = "4" ]; then
+        bityes
+        z08
+    fi
+    if [ $rtg = "6" ] || [ $rtg = "8" ]; then
+        bitno
+        z07
+    fi
+    wronginput
+    echo "z07"
+    eingabe1
+}
+
+function z29() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  .  "
+    echo -e "--\033[36mB\033[37m--"
+    echo "  |  "
+    echo " z29"
+    eingabe1
+    beenden
+    if [ $rtg = "6" ]; then
+        bityes
+        z27
+    fi
+    if [ $rtg = "2" ]; then
+        bityes
+        z28
+    fi
+    if [ $rtg = "4" ]; then
+        bityes
+        z30
+    fi
+    if [ $rtg = "8" ]; then
+        bitno
+        z29
+    fi
+    wronginput
+    echo "z29"
+    eingabe1
+}
+
+function z42() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  .  "
+    echo -e "--\033[36mB\033[37m--"
+    echo "  |  "
+    echo " z42"
+    eingabe1
+    beenden
+    if [ $rtg = "6" ]; then
+        bityes
+        z48
+    fi
+    if [ $rtg = "2" ]; then
+        bityes
+        z46
+    fi
+    if [ $rtg = "4" ]; then
+        bityes
+        z41
+    fi
+    if [ $rtg = "8" ]; then
+        bitno
+        z42
+    fi
+    wronginput
+    echo "z42"
+    eingabe1
+}
+
+function z32() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  |  "
+    echo -e "--\033[36mB\033[37m ."
+    echo "  .  "
+    echo " z32"
+    eingabe1
+    beenden
+    if [ $rtg = "8" ]; then
+        bityes
+        z34
+    fi
+    if [ $rtg = "4" ]; then
+        bityes
+        z51
+    fi
+    if [ $rtg = "6" ] || [ $rtg = "2" ]; then
+        bitno
+        z32
+    fi
+    wronginput
+    echo "z32"
+    eingabe1
+}
+
+function z23() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  |  "
+    echo -e "--\033[36mB\033[37m ."
+    echo "  .  "
+    echo " z23"
+    eingabe1
+    beenden
+    if [ $rtg = "8" ]; then
+        bityes
+        z32
+    fi
+    if [ $rtg = "4" ]; then
+        bityes
+        z37
+    fi
+    if [ $rtg = "6" ] || [ $rtg = "2" ]; then
+        bitno
+        z23
+    fi
+    wronginput
+    echo "z23"
+    eingabe1
+}
+
+function z17() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  |  "
+    echo -e "--\033[36mB\033[37m ."
+    echo "  .  "
+    echo " z17"
+    eingabe1
+    beenden
+    if [ $rtg = "8" ]; then
+        bityes
+        z18
+    fi
+    if [ $rtg = "4" ]; then
+        bityes
+        z16
+    fi
+    if [ $rtg = "6" ] || [ $rtg = "2" ]; then
+        bitno
+        z17
+    fi
+    wronginput
+    echo "z17"
+    eingabe1
+}
+
+function z11() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  |  "
+    echo -e "--\033[36mB\033[37m--"
+    echo "  .  "
+    echo " z11"
+    eingabe1
+    beenden
+    if [ $rtg = "8" ]; then
+        bityes
+        z13
+    fi
+    if [ $rtg = "6" ]; then
+        bityes
+        z10
+    fi
+    if [ $rtg = "4" ]; then
+        bityes
+        z12
+    fi
+    if [ $rtg = "2" ]; then
+        bitno
+        z11
+    fi
+    wronginput
+    echo "z11"
+    eingabe1
+}
+
+function z12() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  .  "
+    echo -e ". \033[36mB\033[37m--"
+    echo "  .  "
+    echo " z12"
+    eingabe1
+    beenden
+    if [ $rtg = "6" ]; then
+        bityes
+        z11
+    fi
+    if [ $rtg = "2" ] || [ $rtg = "4" ] || [ $rtg = "8" ]; then
+        bitno
+        z12
+    fi
+    wronginput
+    echo "z12"
+    eingabe1
+}
+
+function z33() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  |  "
+    echo -e ". \033[36mB\033[37m--"
+    echo "  |  "
+    echo " z33"
+    eingabe1
+    beenden
+    if [ $rtg = "8" ]; then
+        bityes
+        z44
+    fi
+    if [ $rtg = "6" ]; then
+        bityes
+        z51
+    fi
+    if [ $rtg = "2" ]; then
+        bityes
+        z31
+    fi
+    if [ $rtg = "4" ]; then
+        bitno
+        z33
+    fi
+    wronginput
+    echo "z33"
+    eingabe1
+}
+
+function z38() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  |  "
+    echo -e ". \033[36mB\033[37m--"
+    echo "  |  "
+    echo " z38"
+    eingabe1
+    beenden
+    if [ $rtg = "8" ]; then
+        bityes
+        z49
+    fi
+    if [ $rtg = "6" ]; then
+        bityes
+        z37
+    fi
+    if [ $rtg = "2" ]; then
+        bityes
+        z50
+    fi
+    if [ $rtg = "4" ]; then
+        bitno
+        z38
+    fi
+    wronginput
+    echo "z38"
+    eingabe1
+}
+
+function z30() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  |  "
+    echo -e ". \033[36mB\033[37m--"
+    echo "  .  "
+    echo " z30"
+    eingabe1
+    beenden
+    if [ $rtg = "8" ]; then
+        bityes
+        z31
+    fi
+    if [ $rtg = "6" ]; then
+        bityes
+        z29
+    fi
+    if [ $rtg = "4" ] || [ $rtg = "2" ]; then
+        bitno
+        z30
+    fi
+    wronginput
+    echo "z30"
+    eingabe1
+}
+
+function z35() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  |  "
+    echo -e "--\033[36mB\033[37m--"
+    echo "  |  "
+    echo " z35"
+    eingabe1
+    beenden
+    if [ $rtg = "8" ]; then
+        bityes
+        z47
+    fi
+    if [ $rtg = "6" ]; then
+        bityes
+        z36
+    fi
+    if [ $rtg = "2" ]; then
+        bityes
+        z34
+    fi
+    if [ $rtg = "4" ]; then
+        bityes
+        z45
+    fi
+    wronginput
+    echo "z35"
+    eingabe1
+}
+
+function z24() {
+    clear
+    bit
+    text2
+    echo " NAV"
+    echo "  |  "
+    echo -e ". \033[36mB\033[37m ."
+    echo "  E  "
+    echo " z24"
+    eingabe1
+    beenden
+    if [ $rtg = "8" ]; then
+        bityes
+        z26
+    fi
+    if [ $rtg = "2" ]; then
+        gameende
+    fi
+    if [ $rtg = "4" ] || [ $rtg = "6" ]; then
+        bitno
+        z24
+    fi
+    wronginput
+    echo "z24"
+    eingabe1
+}
+
+clear
+bit
+textkpl
+read -s -n1
+
+bit
+z01
