@@ -6,15 +6,18 @@ if [ "$EUID" -ne 0 ]
 fi
 
 echo "Installiere Abhängikeiten"
-apt install git -y > /dev/null
+apt install git -y &> /dev/null
 echo "Lade installations dateine Runter"
-git clone https://github.com/LegendRed01/Bash_Scripting.git /tmp/koopit > /dev/null
-rm /tmp/koopit/[v*,RE*,insta*] > /dev/null; rm /bin/it10games > /dev/null; rm -r /bin/games > /dev/null
+rm -r /tmp/koopit &> /dev/null
+git clone https://github.com/LegendRed01/Bash_Scripting.git /tmp/koopit &> /dev/null
+rm /tmp/koopit/README.md &> /dev/null;rm /tmp/koopit/installer &> /dev/null;
+rm /bin/it10games &> /dev/null
+rm -r /bin/games &> /dev/null
  
 
-chmod a+x /tmp/koopitit10games
-chmod a+x /tmp/koopitgames/*
-mv -r /tmp/koopit/* /usr/bin
+chmod a+x /tmp/koopit/it10games &> /dev/null
+chmod a+x /tmp/koopit/games/* &> /dev/null
+mv /tmp/koopit/* /usr/bin
 
 #clear
 echo Koop IT 10 Games Launcher installiert

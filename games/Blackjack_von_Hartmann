@@ -1,0 +1,283 @@
+
+
+getopts "d:" message_delay
+
+message_delay=${OPTARG:-"1"} #Zeitverzögerung im Spiel
+#Namen Index Feld
+declare -a deck player_hand dealer_hand 
+
+function new_deck #Kartenstapel
+{
+    cards=(
+        "2|2"
+        "3|3"
+        "4|4"
+        "5|5"
+        "6|6"
+        "7|7"
+        "8|8"
+        "9|9"
+        "10|10"
+        "Bube|10"
+        "Dame|10"
+        "Koenig|10"
+        "Ass|1"
+    )
+
+    suites=(
+        "♦"
+        "♥"
+        "♣"
+        "♠"
+    )
+
+    for suite in ${suites[@]}; do
+        for card in ${cards[@]}; do
+            echo "$suite|$card"
+        done
+    done
+}
+
+function card_suite #Kartentyp
+{
+    echo "$1" | cut --delimiter="|" --fields="1,1"
+}
+
+function card_name #Kartenname
+{
+    echo "$1" | cut --delimiter="|" --fields="2,2"
+}
+
+function card_value #Kartenwert 
+{
+    echo "$1" | cut --delimiter="|" --fields="3,3"
+}
+
+function card_is_ace #Wenn Karte Ass ist
+{
+    [[ "$(card_name $1)" == "Ass" ]]
+}
+
+function card_is_face #Wenn Karte Bild (König,Dame,Bube) ist
+{
+    pattern='^(Bube|Dame|Koenig)$'
+    [[ "$(card_name $1)" =~ $pattern ]]
+}
+
+function card_full_name #Name Ausgeschrieben zusammen
+{
+    echo "$(card_suite $1) $(card_name $1)"
+}
+
+function card_abbreviation #Karten Abkürzung Hinter der Hand
+{
+    if (card_is_face $1 || card_is_ace $1); then
+        name=$(card_name $1)
+        name=${name:0:1}
+    else
+        name="$(card_value $1)"
+    fi
+
+    suite=$(card_suite $1)
+
+    echo " ${suite:0:1}$name "
+}
+
+
+function hand_value #Die Hand /Sortiert/Geortnet 
+{
+    sorted_hand=($(echo "$@" | tr ' ' "\n" | sort --field-separator='|' --key='3,3n'))
+
+    declare -i value=0
+
+    for card in ${sorted_hand[@]}; do
+        card_value=$(card_value $card)
+        value=$((value + card_value))
+    done
+
+    if [[ $value -lt 12 ]]; then
+        for card in ${sorted_hand[@]}; do
+            if card_is_ace $card; then
+                value+=10
+            fi
+
+            if [[ $value -gt 12 ]]; then
+                break
+            fi
+        done
+    fi
+
+    echo $value
+}
+
+function hand_abbreviation #Abkürzen
+{
+    echo -n "( "
+    for card in $@; do
+        echo -n "$(card_abbreviation $card )"
+    done
+    echo ")"
+}
+
+function hand_is_bust #Größer 21
+{
+    [[ $(hand_value $@) -gt 21 ]]
+}
+
+function hand_is_blackjack #Blackjack
+{
+    [[ $# -eq 2 && $(hand_value $@) -eq 21 ]] 
+}
+
+function echo_with_delay #Ausgabe mit Verzögerung
+{
+    echo -e $@
+    sleep $message_delay
+}
+
+function hit_dealer #Dealer zieht
+{
+    card=${deck[0]}
+    deck=(${deck[@]:1})
+    dealer_hand+=($card)
+
+    echo_with_delay "\nDealer zieht $(card_full_name $card)"
+}
+
+function hit_player #Spieler zieht
+{
+    card=${deck[0]}
+    deck=(${deck[@]:1})
+    player_hand+=($card)
+
+    echo_with_delay "\nSpieler zieht $(card_full_name $card)"
+}
+
+function player_turn #Spielers Hält
+{
+    input=""
+
+    until [[ $input == "h" ]]; do
+        echo_with_delay "\nSpieler Hand: $(hand_value ${player_hand[@]}) $(hand_abbreviation ${player_hand[@]})\n\n(z)ziehen oder (h)halten?" #Hit und Stay
+
+        read -s -n 1 input
+        input=${input,,}
+
+        if [[ $input == "z" ]]; then
+            hit_player
+
+            if hand_is_bust ${player_hand[@]}; then
+                echo_with_delay "\nVerloren!"
+                return 1;
+            fi
+        fi
+    done
+
+    echo_with_delay "\nSpieler Hält."
+
+    return 0;
+}
+
+function dealer_turn #Dealers Hält
+{
+    echo_with_delay "\nDealer zeigt $(card_full_name ${dealer_hand[1]})."
+
+    dealer_hand_value=$(hand_value ${dealer_hand[@]})
+
+    echo_with_delay "\nDealer Hand: $dealer_hand_value $(hand_abbreviation ${dealer_hand[@]})."
+
+    player_hand_value=$(hand_value ${player_hand[@]})
+
+    until [[ $dealer_hand_value -ge 17 || $dealer_hand_value -gt $player_hand_value ]]; do
+        hit_dealer
+
+        dealer_hand_value=$(hand_value ${dealer_hand[@]})
+
+        echo_with_delay "\nDealer Hand: $dealer_hand_value $(hand_abbreviation ${dealer_hand[@]})."
+    done
+
+    if hand_is_bust ${dealer_hand[@]}; then
+        echo_with_delay "\nGewonnen!"
+        return 1;
+    fi
+
+    echo_with_delay "\nDealer Hält."
+
+    return 0
+}
+
+function new_game #Neues Spiel
+{
+    deck=($(new_deck | shuf))
+
+    player_hand=(${deck[@]:0:2})
+    dealer_hand=(${deck[@]:2:2})
+
+    deck=(${deck[@]:4})
+
+    echo_with_delay "Spieler zieht $(card_full_name ${player_hand[0]}) und $(card_full_name ${player_hand[1]})."
+
+    if hand_is_blackjack ${player_hand[@]}; then
+        echo_with_delay "\nBlackjack!"
+        if hand_is_blackjack ${dealer_hand[@]}; then
+            echo_with_delay "\nDealer hat $(card_full_name ${dealer_hand[0]}) und $(card_full_name ${dealer_hand[1]})."
+
+            echo_with_delay "\nBeide Spieler haben Blackjack. Spiel ist Unentschieden."
+        else
+            echo_with_delay "\nBlackjack!"
+        fi
+
+        return
+    elif hand_is_blackjack ${dealer_hand[@]}; then
+        echo_with_delay "\nDealer hat $(card_full_name ${dealer_hand[0]}) und $(card_full_name ${dealer_hand[1]})."
+
+        echo_with_delay "\nDealer hat Blackjack. Dealer Gewinnt."
+        return
+    fi
+
+    echo_with_delay "\nDealer zeigt $(card_full_name ${dealer_hand[0]})."
+
+    if ! player_turn; then
+        echo_with_delay "\nSpieler zieht zuviel."
+        return
+    fi
+
+    if ! dealer_turn; then
+        echo_with_delay "\nDealer zieht zuviel."
+        return
+    fi
+
+    player_hand_value=$(hand_value ${player_hand[@]})
+    dealer_hand_value=$(hand_value ${dealer_hand[@]})
+
+    echo_with_delay "\nSpieler hat $player_hand_value. Dealer hat $dealer_hand_value."
+
+    if [[ $player_hand_value -gt $dealer_hand_value ]]; then
+        echo_with_delay "\nSpieler Gewinnt."
+    elif [[ $player_hand_value -lt $dealer_hand_value ]]; then
+        echo_with_delay "\nDealer Gewinnt."
+    else
+        echo_with_delay "\nUnentschieden."
+    fi
+}
+
+function menu_loop #Spielen Menu
+{
+    input=""
+
+    until [[ $input == "q" ]]; do
+        echo_with_delay "Spielen(s) oder Beenden(q)?\n"
+        read -s -n 1 input
+        input=${input,,}
+
+        if [[ $input == "s" ]]; then
+            new_game
+        fi
+    done
+
+    return 0
+}
+
+menu_loop
+
+exit 0
