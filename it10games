@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-declare -a avalible_games=( $(ls /bin/koopit/games) )
+declare -a avalible_games=( $(ls /bin/games) )
 declare -i current_game=0
 clear
 
@@ -66,7 +66,7 @@ function SelectorDown () {
     fi  
 }
 function StartGame () {
-    /bin/koopit/games/${avalible_games[$current_game]}
+    /bin/games/${avalible_games[$current_game]}
     reset
     PrintSelector
 }
