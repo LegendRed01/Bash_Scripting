@@ -188,7 +188,7 @@ function dealer_turn #Dealers Hält
 
     player_hand_value=$(hand_value ${player_hand[@]})
 
-    until [[ $dealer_hand_value -ge 17 || $dealer_hand_value -gt $player_hand_value ]]; do
+    until [[ $dealer_hand_value -ge $player_hand_value ]]; do
         hit_dealer
 
         dealer_hand_value=$(hand_value ${dealer_hand[@]})
